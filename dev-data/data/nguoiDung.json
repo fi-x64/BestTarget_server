@@ -1,0 +1,22 @@
+[
+  {
+    "hoTen": "admin",
+    "email": "admin@gmail.com",
+    "anhDaiDien": "abc.jpg",
+    "matKhau": "$2a$12$Q0grHjH9PXc6SxivC8m12.2mZJ9BbKcgFpwSG4Y1ZEII8HJVzWeyS",
+    "xacNhanMatKhau": "$2a$12$Q0grHjH9PXc6SxivC8m12.2mZJ9BbKcgFpwSG4Y1ZEII8HJVzWeyS",
+    "gioiTinh": "M",
+    "diaChi": [
+      {
+        "kinhDo": "",
+        "viDo": "",
+        "soNha": "",
+        "phuongXaCode": "",
+        "quanHuyenCode": "",
+        "tinhThanh": ""
+      }
+    ],
+    "quyenId": "6400c36bfffb784e9ba899f7",
+    "trangThai": true
+  }
+]
