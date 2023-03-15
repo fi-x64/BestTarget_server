@@ -11,7 +11,8 @@ const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const nguoiDungRouter = require('./routes/nguoiDungRoutes');
 const diaChiRouter = require('./routes/diaChiRoutes');
-
+const danhMucRouter = require('./routes/danhMucRoutes');
+const tinDangRouter = require('./routes/tinDangRoutes');
 // const reviewRouter = require('./routes/reviewRoutes');
 
 const app = express();
@@ -70,6 +71,8 @@ app.use((req, res, next) => {
 // 3) ROUTES
 app.use('/api/users', nguoiDungRouter);
 app.use('/api/', diaChiRouter);
+app.use('/api/', danhMucRouter);
+app.use('/api/', tinDangRouter);
 
 // app.use('/api/reviews', reviewRouter);
 

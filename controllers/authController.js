@@ -79,7 +79,6 @@ exports.protect = catchAsync(async (req, res, next) => {
       new AppError('You are not logged in! Please log in to get access.', 401)
     );
   }
-
   // 2) Verification token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
@@ -188,17 +187,18 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
+  console.log("Check req.user: ", req.user);
   // 1) Get user from collection
-  const user = await User.findById(req.user.id).select('+password');
+  const user = await NguoiDung.findById(req.user.id).select('+matKhau');
 
   // 2) Check if POSTed current password is correct
-  if (!(await user.correctPassword(req.body.passwordCurrent, user.password))) {
-    return next(new AppError('Your current password is wrong.', 401));
+  if (!(await user.correctPassword(req.body.passwordCurrent, user.matKhau))) {
+    return next(new AppError('Mật khẩu hiện tại không đúng.', 401));
   }
 
   // 3) If so, update password
-  user.password = req.body.password;
-  user.passwordConfirm = req.body.passwordConfirm;
+  user.matKhau = req.body.password;
+  user.xacNhanMatKhau = req.body.passwordConfirm;
   await user.save();
   // User.findByIdAndUpdate will NOT work as intended!
 

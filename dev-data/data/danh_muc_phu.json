@@ -1,0 +1,47 @@
+[
+    {
+        "danhMucPhuId": 1,
+        "ten": "Điện thoại",
+        "danhMucId": 1
+    },
+    {
+        "danhMucPhuId": 2,
+        "ten": "Máy tính bảng",
+        "danhMucId": 1
+    },
+    {
+        "danhMucPhuId": 3,
+        "ten": "Laptop",
+        "danhMucId": 1
+    },
+    {
+        "danhMucPhuId": 4,
+        "ten": "Máy tính để bàn",
+        "danhMucId": 1
+    },
+    {
+        "danhMucPhuId": 5,
+        "ten": "Máy ảnh, Máy quay",
+        "danhMucId": 1
+    },
+    {
+        "danhMucPhuId": 6,
+        "ten": "Tivi, Âm thanh",
+        "danhMucId": 1
+    },
+    {
+        "danhMucPhuId": 7,
+        "ten": "Thiết bị đeo thông minh",
+        "danhMucId": 1
+    },
+    {
+        "danhMucPhuId": 8,
+        "ten": "Phụ kiện (Màn hình, Chuột...)",
+        "danhMucId": 1
+    },
+    {
+        "danhMucPhuId": 9,
+        "ten": "Linh kiện (RAM, Card,...)",
+        "danhMucId": 1
+    }
+]

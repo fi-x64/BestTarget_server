@@ -1,0 +1,284 @@
+[
+    {
+        "hangSX": [
+            {
+                "tenHang": "Alcatel",
+                "danhMucId": [
+                    1
+                ]
+            },
+            {
+                "tenHang": "Apple",
+                "danhMucId": [
+                    1,
+                    2,
+                    3,
+                    4
+                ]
+            },
+            {
+                "tenHang": "Acer",
+                "danhMucId": [
+                    1,
+                    2
+                ]
+            },
+            {
+                "tenHang": "Asus",
+                "danhMucId": [
+                    1,
+                    2,
+                    3,
+                    4
+                ]
+            },
+            {
+                "tenHang": "BKAV",
+                "danhMucId": [
+                    1
+                ]
+            },
+            {
+                "tenHang": "Blackberry",
+                "danhMucId": [
+                    1,
+                    2
+                ]
+            },
+            {
+                "tenHang": "Dell",
+                "danhMucId": [
+                    1,
+                    2
+                ]
+            },
+            {
+                "tenHang": "Google",
+                "danhMucId": [
+                    1
+                ]
+            },
+            {
+                "tenHang": "HTC",
+                "danhMucId": [
+                    1
+                ]
+            },
+            {
+                "tenHang": "Lenovo",
+                "danhMucId": [
+                    1,
+                    2
+                ]
+            },
+            {
+                "tenHang": "Samsung",
+                "danhMucId": [
+                    1,
+                    2,
+                    3
+                ]
+            },
+            {
+                "tenHang": "Vsmart",
+                "danhMucId": [
+                    1,
+                    2,
+                    3,
+                    4
+                ]
+            },
+            {
+                "tenHang": "Vivo",
+                "danhMucId": [
+                    1,
+                    2,
+                    3,
+                    4
+                ]
+            },
+            {
+                "tenHang": "Xiaomi",
+                "danhMucId": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    7
+                ]
+            }
+        ],
+        "mauSac": {
+            "danhSach": [
+                "Bạc",
+                "Đen",
+                "Đen bóng - Jet black"
+            ],
+            "danhMucId": [
+                1,
+                2,
+                3,
+                7
+            ]
+        },
+        "dungLuong": {
+            "danhSach": [
+                "<8 GB",
+                "8 GB",
+                "16 GB",
+                "32 GB",
+                "64 GB",
+                "128 GB",
+                "256GB",
+                "512 GB",
+                "1 TB",
+                "2 TB",
+                "> 2TB"
+            ],
+            "danhMucId": [
+                1,
+                2,
+                3,
+                4
+            ]
+        },
+        "suDungSim": {
+            "danhSach": [
+                "Không có 3G/4G",
+                "Sử dụng simcard 3G/4G"
+            ],
+            "danhMucId": [
+                2
+            ]
+        },
+        "boViXuLy": {
+            "danhMucBoViXuLy": [
+                "AMD",
+                "Athlon",
+                "Intel Atom",
+                "Intel Celeron",
+                "Intel Core 2 Duo",
+                "Intel Core i3",
+                "Intel Core i5",
+                "Intel Core i7",
+                "Intel Core i9",
+                "Intel Pentium",
+                "Ryzen 3",
+                "Ryzen 5",
+                "Ryzen 7",
+                "Ryzen 9",
+                "Khác"
+            ]
+        },
+        "ram": {
+            "dungLuongRam": [
+                "<2 GB",
+                "2 GB",
+                "4 GB",
+                "8 GB",
+                "16 GB",
+                "32GB",
+                ">32 GB"
+            ],
+            "danhMucId": [
+                1,
+                2,
+                3,
+                4
+            ]
+        },
+        "loaiOCung": {
+            "danhSach": [
+                "SSD",
+                "HDD"
+            ],
+            "danhMucId": [
+                3,
+                4
+            ]
+        },
+        "cardManHinh": {
+            "danhSach": [
+                "Onboard",
+                "AMD",
+                "NVIDIA",
+                "Khác"
+            ],
+            "danhMucId": [
+                3,
+                4
+            ]
+        },
+        "kichCoManHinh": {
+            "danhSach": [
+                "< 9 inch",
+                "9 - 10.9 inch",
+                "11 - 12.9 inch",
+                "13 - 14.9 inch",
+                "15 - 15.6 inch",
+                "17 - 18.9 inch",
+                "19 - 20.9 inch",
+                ">=21 inch"
+            ],
+            "danhMucId": [
+                3,
+                4
+            ]
+        },
+        "loaiMayAnh": {
+            "danhSach": [
+                "Máy ảnh",
+                "Máy quay",
+                "Ống kính",
+                "Khác"
+            ],
+            "danhMucId": [
+                5
+            ]
+        },
+        "loaiAmThanh": {
+            "danhSach": [
+                "Tivi",
+                "Loa",
+                "Amply",
+                "Tai nghe",
+                "Micro",
+                "Karaoke",
+                "Khác"
+            ],
+            "danhMucId": [
+                6
+            ]
+        },
+        "loaiThietBiDeo": {
+            "danhSach": [
+                "Đồng hồ thông minh",
+                "Vòng tay thông ming",
+                "Khác"
+            ],
+            "danhMucId": [
+                7
+            ]
+        },
+        "loaiPhuKien": {
+            "danhSach": [
+                "Phụ kiện máy tính",
+                "Phụ kiện điện thoại",
+                "Khác"
+            ],
+            "danhMucId": [
+                8
+            ]
+        },
+        "loaiLinhKien": {
+            "danhSach": [
+                "Linh kiện máy tính",
+                "Linh kiện điện thoại",
+                "Khác"
+            ],
+            "danhMucId": [
+                9
+            ]
+        }
+    }
+]

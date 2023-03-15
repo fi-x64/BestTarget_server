@@ -80,6 +80,7 @@ const nguoiDungSchema = new mongoose.Schema({
   thoiGianDoiMatKhau: Date,
   tokenDatLaiMatKhau: String,
   hanDatLaiMatKhau: Date,
+  thoiGianTao: { type: Date, default: Date.now },
   trangThai: {
     type: Boolean,
     default: true,
