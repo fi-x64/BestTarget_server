@@ -3,127 +3,110 @@ const mongoose = require('mongoose');
 const goiYSchema = new mongoose.Schema(
     {
         _id: String,
-        // hangSX: [{
-        //     tenHang: {
-        //         type: String
-        //     },
-        //     danhMucId: {
-        //         type: String
-        //     }
-        // }],
-        // mauSac: {
-        //     danhSach: {
-        //         type: Array
-        //     },
-        //     danhMucId: {
-        //         type: Array
-        //     }
-        // },
-        // dungLuong: {
-        //     danhSach: {
-        //         type: Array
-        //     },
-        //     danhMucId: {
-        //         type: Array
-        //     }
-        // },
-        // suDungSim: {
-        //     danhSach: {
-        //         type: Array
-        //     },
-        //     danhMucId: {
-        //         type: Array
-        //     }
-        // },
-        // suDungSim: {
-        //     danhSach: {
-        //         type: Array
-        //     },
-        //     danhMucId: {
-        //         type: Array
-        //     }
-        // },
-        // boViXuLy: {
-        //     danhSach: {
-        //         type: Array
-        //     },
-        //     danhMucId: {
-        //         type: Array
-        //     }
-        // },
-        // ram: {
-        //     danhSach: {
-        //         type: Array
-        //     },
-        //     danhMucId: {
-        //         type: Array
-        //     }
-        // },
-        // loaiOCung: {
-        //     danhSach: {
-        //         type: Array
-        //     },
-        //     danhMucId: {
-        //         type: Array
-        //     }
-        // },
-        // cardManHinh: {
-        //     danhSach: {
-        //         type: Array
-        //     },
-        //     danhMucId: {
-        //         type: Array
-        //     }
-        // },
-        // kichCoManHinh: {
-        //     danhSach: {
-        //         type: Array
-        //     },
-        //     danhMucId: {
-        //         type: Array
-        //     }
-        // },
-        // loaiMayAnh: {
-        //     danhSach: {
-        //         type: Array
-        //     },
-        //     danhMucId: {
-        //         type: Array
-        //     }
-        // },
-        // loaiAmThanh: {
-        //     danhSach: {
-        //         type: Array
-        //     },
-        //     danhMucId: {
-        //         type: Array
-        //     }
-        // },
-        // loaiThietBiDeo: {
-        //     danhSach: {
-        //         type: Array
-        //     },
-        //     danhMucId: {
-        //         type: Array
-        //     }
-        // },
-        // loaiPhuKien: {
-        //     danhSach: {
-        //         type: Array
-        //     },
-        //     danhMucId: {
-        //         type: Array
-        //     }
-        // },
-        // loaiLinhKien: {
-        //     danhSach: {
-        //         type: Array
-        //     },
-        //     danhMucId: {
-        //         type: Array
-        //     }
-        // },
-
+        hangSX: [{
+            label: {
+                type: String
+            },
+            value: {
+                type: Number
+            }
+        }],
+        mauSac: [{
+            label: {
+                type: String
+            },
+            value: {
+                type: Number
+            }
+        }],
+        dungLuong: [{
+            label: {
+                type: String
+            },
+            value: {
+                type: Number
+            }
+        }],
+        suDungSim: [{
+            label: {
+                type: String
+            },
+            value: {
+                type: Number
+            }
+        }],
+        boViXuLy: [{
+            label: {
+                type: String
+            },
+            value: {
+                type: Number
+            }
+        }],
+        ram: [{
+            label: {
+                type: String
+            },
+            value: {
+                type: Number
+            }
+        }],
+        oCung: [{
+            label: {
+                type: String
+            },
+            value: {
+                type: Number
+            }
+        }],
+        loaiOCung: [{
+            label: {
+                type: String
+            },
+            value: {
+                type: Number
+            }
+        }],
+        cardManHinh: [{
+            label: {
+                type: String
+            },
+            value: {
+                type: Number
+            }
+        }],
+        kichCoManHinh: [{
+            label: {
+                type: String
+            },
+            value: {
+                type: Number
+            }
+        }],
+        thietBi: [{
+            label: {
+                type: String
+            },
+            value: {
+                type: Number
+            }
+        }],
+        phuKien: [{
+            label: {
+                type: String
+            },
+            value: {
+                type: Number
+            }
+        }],
+        linhKien: [{
+            label: {
+                type: String
+            },
+            value: {
+                type: Number
+            }
+        }],
     },
     {
         toJSON: { virtuals: true },

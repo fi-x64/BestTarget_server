@@ -2,6 +2,7 @@ const NguoiDung = require('../models/nguoiDungModel');
 const TinhTP = require('../models/tinhTPModel');
 const QuanHuyen = require('../models/quanHuyenModel');
 const PhuongXa = require('../models/phuongXaModel');
+const Quyen = require('../models/quyenModel');
 
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
@@ -75,7 +76,7 @@ exports.getAllTinhThanh = catchAsync(async (req, res) => {
 
 exports.getUser = catchAsync(async (req, res, next) => {
   console.log("Check req: ", req.params);
-  let query = NguoiDung.findById(req.params.id);
+  let query = NguoiDung.findById(req.params.id).populate('quyen');
   // query = query.populate({ path: 'diaChi.tinhTPCode', select: 'ten code' }).populate({ path: 'diaChi.quanHuyenCode', select: 'ten code' }).populate({ path: 'diaChi.phuongXaCode', select: 'ten code' });
 
   // let query = NguoiDung.aggregate([

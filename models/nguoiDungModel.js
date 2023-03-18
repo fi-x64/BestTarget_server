@@ -72,9 +72,10 @@ const nguoiDungSchema = new mongoose.Schema({
     },
   },
   quyen: {
-    type: String,
-    enum: ['user', 'admin', 'manager'],
-    default: 'user'
+    // type: String,
+    // enum: ['user', 'admin', 'manager'],
+    // default: 'user'
+    type: mongoose.Schema.ObjectId, ref: 'Quyen'
   },
   thoiGianChinhSua: Date,
   thoiGianDoiMatKhau: Date,

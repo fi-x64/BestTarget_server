@@ -9,6 +9,10 @@ router
     .post(tinDangController.createTinDang);
 
 router
+    .route('/editPost')
+    .patch(tinDangController.editTinDang);
+
+router
     .route('/getGoiY')
     .get(tinDangController.getGoiY);
 
@@ -19,5 +23,24 @@ router
 router
     .route('/getTinDang')
     .get(tinDangController.getTinDang);
+
+router
+    .route('/getTinDangId')
+    .get(tinDangController.getTinDangId);
+
+router
+    .route('/deleteImage')
+    .patch(tinDangController.deleteImage);
+
+router
+    .route('/deleteVideo')
+    .patch(tinDangController.deleteVideo);
+
+router.use(authController.protect);
+router.use(authController.restrictTo('admin'));
+
+router
+    .route('/getAllPosts')
+    .get(tinDangController.getAllPosts);
 
 module.exports = router;

@@ -1,0 +1,1347 @@
+[{
+  "_id": {
+    "$oid": "64114b746a8c068021185780"
+  },
+  "danhMuc": 1,
+  "danhMucPhuId": 1,
+  "hangSX": [
+    {
+      "label": "Alcatel",
+      "value": 1
+    },
+    {
+      "label": "Apple",
+      "value": 2
+    },
+    {
+      "label": "Aquos",
+      "value": 3
+    },
+    {
+      "label": "Arbutus",
+      "value": 4
+    },
+    {
+      "label": "Asanzo",
+      "value": 5
+    },
+    {
+      "label": "Asus",
+      "value": 6
+    },
+    {
+      "label": "BKAV",
+      "value": 7
+    },
+    {
+      "label": "Blackberry",
+      "value": 8
+    },
+    {
+      "label": "Bluboo",
+      "value": 9
+    },
+    {
+      "label": "Coolpad",
+      "value": 10
+    },
+    {
+      "label": "Dopod",
+      "value": 11
+    },
+    {
+      "label": "Elephone",
+      "value": 12
+    },
+    {
+      "label": "Epic",
+      "value": 13
+    },
+    {
+      "label": "Essential",
+      "value": 14
+    },
+    {
+      "label": "Fujitsu",
+      "value": 15
+    },
+    {
+      "label": "Gionee",
+      "value": 16
+    },
+    {
+      "label": "Google",
+      "value": 17
+    },
+    {
+      "label": "Hero",
+      "value": 18
+    },
+    {
+      "label": "HTC",
+      "value": 19
+    },
+    {
+      "label": "Huawei",
+      "value": 20
+    },
+    {
+      "label": "Intel",
+      "value": 21
+    },
+    {
+      "label": "Itel",
+      "value": 22
+    },
+    {
+      "label": "Kechaoda",
+      "value": 23
+    },
+    {
+      "label": "Kyocera",
+      "value": 24
+    },
+    {
+      "label": "Land Rover",
+      "value": 25
+    },
+    {
+      "label": "Leagoo",
+      "value": 26
+    },
+    {
+      "label": "Lenovo",
+      "value": 27
+    },
+    {
+      "label": "LG",
+      "value": 28
+    },
+    {
+      "label": "Masstel",
+      "value": 29
+    },
+    {
+      "label": "Meitu",
+      "value": 30
+    },
+    {
+      "label": "Meizu",
+      "value": 31
+    },
+    {
+      "label": "Microsoft",
+      "value": 32
+    },
+    {
+      "label": "Mobell",
+      "value": 33
+    },
+    {
+      "label": "Mobiado",
+      "value": 34
+    },
+    {
+      "label": "Mobiistar",
+      "value": 35
+    },
+    {
+      "label": "Motorola",
+      "value": 36
+    },
+    {
+      "label": "Nokia phổ thông",
+      "value": 37
+    },
+    {
+      "label": "Nokia thông minh",
+      "value": 38
+    },
+    {
+      "label": "Nubia",
+      "value": 39
+    },
+    {
+      "label": "Obi",
+      "value": 40
+    },
+    {
+      "label": "OnePlus",
+      "value": 41
+    },
+    {
+      "label": "Oppo",
+      "value": 42
+    },
+    {
+      "label": "Oukitel",
+      "value": 43
+    },
+    {
+      "label": "Palm",
+      "value": 44
+    },
+    {
+      "label": "Philips",
+      "value": 45
+    },
+    {
+      "label": "Pocophone",
+      "value": 46
+    },
+    {
+      "label": "Q Mobile",
+      "value": 47
+    },
+    {
+      "label": "Razer",
+      "value": 48
+    },
+    {
+      "label": "Realme",
+      "value": 49
+    },
+    {
+      "label": "Samsung",
+      "value": 50
+    },
+    {
+      "label": "Sharp",
+      "value": 51
+    },
+    {
+      "label": "Sky",
+      "value": 52
+    },
+    {
+      "label": "Sony",
+      "value": 53
+    },
+    {
+      "label": "Tecno",
+      "value": 54
+    },
+    {
+      "label": "Uimi",
+      "value": 55
+    },
+    {
+      "label": "Ulefone",
+      "value": 56
+    },
+    {
+      "label": "Umidigi",
+      "value": 57
+    },
+    {
+      "label": "Vertu",
+      "value": 58
+    },
+    {
+      "label": "Vivo",
+      "value": 59
+    },
+    {
+      "label": "Vsmart",
+      "value": 60
+    },
+    {
+      "label": "Wiko",
+      "value": 61
+    },
+    {
+      "label": "Wing",
+      "value": 62
+    },
+    {
+      "label": "Xiaomi",
+      "value": 63
+    },
+    {
+      "label": "ZiP",
+      "value": 64
+    },
+    {
+      "label": "Hãng khác",
+      "value": 0
+    }
+  ],
+  "mauSac": [
+    {
+      "label": "Bạc",
+      "value": 1
+    },
+    {
+      "label": "Đen",
+      "value": 2
+    },
+    {
+      "label": "Đen bóng - Jet black",
+      "value": 3
+    },
+    {
+      "label": "Màu khác",
+      "value": 0
+    }
+  ],
+  "dungLuong": [
+    {
+      "label": "<8 GB",
+      "value": 1
+    },
+    {
+      "label": "8 GB",
+      "value": 2
+    },
+    {
+      "label": "16 GB",
+      "value": 3
+    },
+    {
+      "label": "32 GB",
+      "value": 4
+    },
+    {
+      "label": "64 GB",
+      "value": 5
+    },
+    {
+      "label": "128 GB",
+      "value": 6
+    },
+    {
+      "label": "256GB",
+      "value": 7
+    },
+    {
+      "label": "512 GB",
+      "value": 8
+    },
+    {
+      "label": ">1 TB",
+      "value": 9
+    }
+  ],
+  "boViXuLy": [
+    {
+      "label": "Apple SoC",
+      "value": 1
+    },
+    {
+      "label": "Qualcomn Snapdragon",
+      "value": 2
+    },
+    {
+      "label": "Mediatek",
+      "value": 3
+    },
+    {
+      "label": "Kirin",
+      "value": 4
+    },
+    {
+      "label": "Helio",
+      "value": 5
+    },
+    {
+      "label": "Exynos",
+      "value": 6
+    },
+    {
+      "label": "Intel",
+      "value": 7
+    },
+    {
+      "label": "NVIDIA",
+      "value": 8
+    },
+    {
+      "label": "Khác",
+      "value": 0
+    }
+  ],
+  "ram": [
+    {
+      "label": "<2 GB",
+      "value": 1
+    },
+    {
+      "label": "2 GB",
+      "value": 2
+    },
+    {
+      "label": "4 GB",
+      "value": 3
+    },
+    {
+      "label": "8 GB",
+      "value": 4
+    },
+    {
+      "label": "16 GB",
+      "value": 5
+    },
+    {
+      "label": "32GB",
+      "value": 6
+    },
+    {
+      "label": ">32 GB",
+      "value": 7
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "64114b746a8c068021185781"
+  },
+  "danhMuc": 1,
+  "danhMucPhuId": 2,
+  "hangSX": [
+    {
+      "label": "Apple",
+      "value": 1
+    },
+    {
+      "label": "Blackberry",
+      "value": 2
+    },
+    {
+      "label": "Samsung",
+      "value": 3
+    },
+    {
+      "label": "Xiaomi",
+      "value": 4
+    },
+    {
+      "label": "Asus",
+      "value": 5
+    },
+    {
+      "label": "Acer",
+      "value": 6
+    },
+    {
+      "label": "Asus",
+      "value": 7
+    },
+    {
+      "label": "Huawei",
+      "value": 8
+    },
+    {
+      "label": "Lenovo",
+      "value": 9
+    },
+    {
+      "label": "Masstel",
+      "value": 10
+    },
+    {
+      "label": "Mobell",
+      "value": 111
+    },
+    {
+      "label": "Amazon Kindle",
+      "value": 12
+    },
+    {
+      "label": "Sony",
+      "value": 13
+    },
+    {
+      "label": "Hãng khác",
+      "value": 0
+    }
+  ],
+  "mauSac": [
+    {
+      "label": "Bạc",
+      "value": 1
+    },
+    {
+      "label": "Đen",
+      "value": 2
+    },
+    {
+      "label": "Đen bóng - Jet black",
+      "value": 4
+    },
+    {
+      "label": "Khác",
+      "value": 0
+    }
+  ],
+  "dungLuong": [
+    {
+      "label": "<8 GB",
+      "value": 1
+    },
+    {
+      "label": "8 GB",
+      "value": 2
+    },
+    {
+      "label": "16 GB",
+      "value": 3
+    },
+    {
+      "label": "32 GB",
+      "value": 4
+    },
+    {
+      "label": "64 GB",
+      "value": 5
+    },
+    {
+      "label": "128 GB",
+      "value": 6
+    },
+    {
+      "label": "256GB",
+      "value": 7
+    },
+    {
+      "label": "512 GB",
+      "value": 8
+    },
+    {
+      "label": ">1 TB",
+      "value": 0
+    }
+  ],
+  "suDungSim": [
+    {
+      "label": "Không có 3G/4G",
+      "value": 1
+    },
+    {
+      "label": "Sử dụng simcard 3G/4G",
+      "value": 2
+    }
+  ],
+  "boViXuLy": [
+    {
+      "label": "Apple SoC",
+      "value": 1
+    },
+    {
+      "label": "Qualcomn Snapdragon",
+      "value": 2
+    },
+    {
+      "label": "Mediatek",
+      "value": 3
+    },
+    {
+      "label": "Kirin",
+      "value": 4
+    },
+    {
+      "label": "Helio",
+      "value": 5
+    },
+    {
+      "label": "Exynos",
+      "value": 6
+    },
+    {
+      "label": "Intel",
+      "value": 7
+    },
+    {
+      "label": "NVIDIA",
+      "value": 8
+    },
+    {
+      "label": "Khác",
+      "value": 0
+    }
+  ],
+  "ram": [
+    {
+      "label": "<2 GB",
+      "value": 1
+    },
+    {
+      "label": "2 GB",
+      "value": 2
+    },
+    {
+      "label": "4 GB",
+      "value": 3
+    },
+    {
+      "label": "8 GB",
+      "value": 4
+    },
+    {
+      "label": "16 GB",
+      "value": 5
+    },
+    {
+      "label": "32GB",
+      "value": 6
+    },
+    {
+      "label": ">32 GB",
+      "value": 0
+    }
+  ],
+  "kichCoManHinh": [
+    {
+      "label": "< 7 inch",
+      "value": 1
+    },
+    {
+      "label": "7 - 7.9 inch",
+      "value": 2
+    },
+    {
+      "label": "8 - 8.9 inch",
+      "value": 3
+    },
+    {
+      "label": "9 - 9.9 inch",
+      "value": 4
+    },
+    {
+      "label": "10 - 10.9 inch",
+      "value": 5
+    },
+    {
+      "label": "11 - 11.9 inch",
+      "value": 6
+    },
+    {
+      "label": "12 - 12.9 inch",
+      "value": 7
+    },
+    {
+      "label": ">=13 inch",
+      "value": 8
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "64114b746a8c068021185782"
+  },
+  "danhMuc": 1,
+  "danhMucPhuId": 3,
+  "hangSX": [
+    {
+      "label": "Apple",
+      "value": 1
+    },
+    {
+      "label": "Asus",
+      "value": 2
+    },
+    {
+      "label": "HP",
+      "value": 3
+    },
+    {
+      "label": "Dell",
+      "value": 4
+    },
+    {
+      "label": "Lenovo",
+      "value": 5
+    },
+    {
+      "label": "Samsung",
+      "value": 6
+    },
+    {
+      "label": "Toshiba",
+      "value": 7
+    },
+    {
+      "label": "MSI",
+      "value": 8
+    },
+    {
+      "label": "Sony",
+      "value": 9
+    },
+    {
+      "label": "Razer",
+      "value": 10
+    },
+    {
+      "label": "LG",
+      "value": 11
+    },
+    {
+      "label": "Panasonic",
+      "value": 12
+    },
+    {
+      "label": "Microsoft",
+      "value": 13
+    },
+    {
+      "label": "Hãng khác",
+      "value": 0
+    }
+  ],
+  "mauSac": [
+    {
+      "label": "Bạc",
+      "value": 1
+    },
+    {
+      "label": "Đen",
+      "value": 2
+    },
+    {
+      "label": "Đen bóng - Jet black",
+      "value": 3
+    },
+    {
+      "label": "Màu khác",
+      "value": 0
+    }
+  ],
+  "boViXuLy": [
+    {
+      "label": "AMD",
+      "value": 1
+    },
+    {
+      "label": "Athlon",
+      "value": 2
+    },
+    {
+      "label": "Intel Atom",
+      "value": 3
+    },
+    {
+      "label": "Intel Celeron",
+      "value": 4
+    },
+    {
+      "label": "Intel Core 2 Duo",
+      "value": 5
+    },
+    {
+      "label": "Intel Core i3",
+      "value": 6
+    },
+    {
+      "label": "Intel Core i5",
+      "value": 7
+    },
+    {
+      "label": "Intel Core i7",
+      "value": 8
+    },
+    {
+      "label": "Intel Core i9",
+      "value": 9
+    },
+    {
+      "label": "Intel Pentium",
+      "value": 10
+    },
+    {
+      "label": "Ryzen 3",
+      "value": 11
+    },
+    {
+      "label": "Ryzen 5",
+      "value": 12
+    },
+    {
+      "label": "Ryzen 7",
+      "value": 13
+    },
+    {
+      "label": "Ryzen 9",
+      "value": 14
+    },
+    {
+      "label": "Khác",
+      "value": 0
+    }
+  ],
+  "ram": [
+    {
+      "label": "<2 GB",
+      "value": 1
+    },
+    {
+      "label": "2 GB",
+      "value": 2
+    },
+    {
+      "label": "4 GB",
+      "value": 3
+    },
+    {
+      "label": "8 GB",
+      "value": 4
+    },
+    {
+      "label": "16 GB",
+      "value": 5
+    },
+    {
+      "label": "32GB",
+      "value": 6
+    },
+    {
+      "label": ">32 GB",
+      "value": 7
+    }
+  ],
+  "oCung": [
+    {
+      "label": "<8 GB",
+      "value": 1
+    },
+    {
+      "label": "8 GB",
+      "value": 2
+    },
+    {
+      "label": "16 GB",
+      "value": 3
+    },
+    {
+      "label": "32 GB",
+      "value": 4
+    },
+    {
+      "label": "64 GB",
+      "value": 5
+    },
+    {
+      "label": "128 GB",
+      "value": 6
+    },
+    {
+      "label": "256GB",
+      "value": 7
+    },
+    {
+      "label": "512 GB",
+      "value": 8
+    },
+    {
+      "label": "1 TB",
+      "value": 9
+    },
+    {
+      "label": "2 TB",
+      "value": 10
+    },
+    {
+      "label": "> 2TB",
+      "value": 11
+    }
+  ],
+  "loaiOCung": [
+    {
+      "label": "SSD",
+      "value": 1
+    },
+    {
+      "label": "HDD",
+      "value": 2
+    }
+  ],
+  "cardManHinh": [
+    {
+      "label": "Onboard",
+      "value": 1
+    },
+    {
+      "label": "AMD",
+      "value": 2
+    },
+    {
+      "label": "NVIDIA",
+      "value": 3
+    },
+    {
+      "label": "Khác",
+      "value": 0
+    }
+  ],
+  "kichCoManHinh": [
+    {
+      "label": "< 9 inch",
+      "value": 1
+    },
+    {
+      "label": "9 - 10.9 inch",
+      "value": 2
+    },
+    {
+      "label": "11 - 12.9 inch",
+      "value": 3
+    },
+    {
+      "label": "13 - 14.9 inch",
+      "value": 4
+    },
+    {
+      "label": "15 - 15.6 inch",
+      "value": 5
+    },
+    {
+      "label": "17 - 18.9 inch",
+      "value": 6
+    },
+    {
+      "label": "19 - 20.9 inch",
+      "value": 7
+    },
+    {
+      "label": ">=21 inch",
+      "value": 8
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "64114b746a8c068021185783"
+  },
+  "danhMuc": 1,
+  "danhMucPhuId": 4,
+  "boViXuLy": [
+    {
+      "label": "AMD",
+      "value": 1
+    },
+    {
+      "label": "Athlon",
+      "value": 2
+    },
+    {
+      "label": "Intel Atom",
+      "value": 3
+    },
+    {
+      "label": "Intel Celeron",
+      "value": 4
+    },
+    {
+      "label": "Intel Core 2 Duo",
+      "value": 5
+    },
+    {
+      "label": "Intel Core i3",
+      "value": 6
+    },
+    {
+      "label": "Intel Core i5",
+      "value": 7
+    },
+    {
+      "label": "Intel Core i7",
+      "value": 8
+    },
+    {
+      "label": "Intel Core i9",
+      "value": 9
+    },
+    {
+      "label": "Intel Pentium",
+      "value": 10
+    },
+    {
+      "label": "Ryzen 3",
+      "value": 11
+    },
+    {
+      "label": "Ryzen 5",
+      "value": 12
+    },
+    {
+      "label": "Ryzen 7",
+      "value": 13
+    },
+    {
+      "label": "Ryzen 9",
+      "value": 14
+    },
+    {
+      "label": "Khác",
+      "value": 0
+    }
+  ],
+  "ram": [
+    {
+      "label": "<2 GB",
+      "value": 1
+    },
+    {
+      "label": "2 GB",
+      "value": 2
+    },
+    {
+      "label": "4 GB",
+      "value": 3
+    },
+    {
+      "label": "8 GB",
+      "value": 4
+    },
+    {
+      "label": "16 GB",
+      "value": 5
+    },
+    {
+      "label": "32GB",
+      "value": 6
+    },
+    {
+      "label": ">32 GB",
+      "value": 7
+    }
+  ],
+  "oCung": [
+    {
+      "label": "<8 GB",
+      "value": 1
+    },
+    {
+      "label": "8 GB",
+      "value": 2
+    },
+    {
+      "label": "16 GB",
+      "value": 3
+    },
+    {
+      "label": "32 GB",
+      "value": 4
+    },
+    {
+      "label": "64 GB",
+      "value": 5
+    },
+    {
+      "label": "128 GB",
+      "value": 6
+    },
+    {
+      "label": "256GB",
+      "value": 7
+    },
+    {
+      "label": "512 GB",
+      "value": 8
+    },
+    {
+      "label": "1 TB",
+      "value": 9
+    },
+    {
+      "label": "2 TB",
+      "value": 10
+    },
+    {
+      "label": "> 2TB",
+      "value": 11
+    }
+  ],
+  "loaiOCung": [
+    {
+      "label": "SSD",
+      "value": 1
+    },
+    {
+      "label": "HDD",
+      "value": 2
+    }
+  ],
+  "cardManHinh": [
+    {
+      "label": "Onboard",
+      "value": 1
+    },
+    {
+      "label": "AMD",
+      "value": 2
+    },
+    {
+      "label": "NVIDIA",
+      "value": 3
+    },
+    {
+      "label": "Khác",
+      "value": 0
+    }
+  ],
+  "kichCoManHinh": [
+    {
+      "label": "< 9 inch",
+      "value": 1
+    },
+    {
+      "label": "9 - 10.9 inch",
+      "value": 2
+    },
+    {
+      "label": "11 - 12.9 inch",
+      "value": 3
+    },
+    {
+      "label": "13 - 14.9 inch",
+      "value": 4
+    },
+    {
+      "label": "15 - 15.6 inch",
+      "value": 5
+    },
+    {
+      "label": "17 - 18.9 inch",
+      "value": 6
+    },
+    {
+      "label": "19 - 20.9 inch",
+      "value": 7
+    },
+    {
+      "label": ">=21 inch",
+      "value": 8
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "64114b746a8c068021185784"
+  },
+  "danhMuc": 1,
+  "danhMucPhuId": 5,
+  "hangSX": [
+    {
+      "label": "Canon",
+      "value": 1
+    },
+    {
+      "label": "Sony",
+      "value": 2
+    },
+    {
+      "label": "Fujifilm",
+      "value": 3
+    },
+    {
+      "label": "Nikon",
+      "value": 4
+    },
+    {
+      "label": "Leica",
+      "value": 5
+    },
+    {
+      "label": "Panasonic",
+      "value": 6
+    },
+    {
+      "label": "Minolta",
+      "value": 7
+    },
+    {
+      "label": "Kodak",
+      "value": 8
+    },
+    {
+      "label": "Olympus",
+      "value": 9
+    },
+    {
+      "label": "Hãng khác",
+      "value": 0
+    }
+  ],
+  "thietBi": [
+    {
+      "label": "Máy ảnh",
+      "value": 1
+    },
+    {
+      "label": "Máy quay",
+      "value": 2
+    },
+    {
+      "label": "Ống kính",
+      "value": 3
+    },
+    {
+      "label": "Khác",
+      "value": 0
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "64114b746a8c068021185785"
+  },
+  "danhMuc": 1,
+  "danhMucPhuId": 6,
+  "hangSX": [
+    {
+      "label": "Sony",
+      "value": 1
+    },
+    {
+      "label": "Samsung",
+      "value": 2
+    },
+    {
+      "label": "Panasonic",
+      "value": 3
+    },
+    {
+      "label": "LG",
+      "value": 4
+    },
+    {
+      "label": "TCL",
+      "value": 5
+    },
+    {
+      "label": "JBL",
+      "value": 6
+    },
+    {
+      "label": "Marshall",
+      "value": 7
+    },
+    {
+      "label": "Beats",
+      "value": 8
+    },
+    {
+      "label": "Hãng khác",
+      "value": 0
+    }
+  ],
+  "thietBi": [
+    {
+      "label": "Tivi",
+      "value": 1
+    },
+    {
+      "label": "Loa",
+      "value": 2
+    },
+    {
+      "label": "Amply",
+      "value": 3
+    },
+    {
+      "label": "Tai nghe",
+      "value": 4
+    },
+    {
+      "label": "Micro",
+      "value": 5
+    },
+    {
+      "label": "Karaoke",
+      "value": 6
+    },
+    {
+      "label": "Khác",
+      "value": 0
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "64114b746a8c068021185786"
+  },
+  "danhMuc": 1,
+  "danhMucPhuId": 7,
+  "hangSX": [
+    {
+      "label": "Apple",
+      "value": 1
+    },
+    {
+      "label": "Samsung",
+      "value": 2
+    },
+    {
+      "label": "Xiaomi",
+      "value": 3
+    },
+    {
+      "label": "Fibit",
+      "value": 4
+    },
+    {
+      "label": "Misfit",
+      "value": 5
+    },
+    {
+      "label": "Garmin",
+      "value": 6
+    },
+    {
+      "label": "Huawei",
+      "value": 7
+    },
+    {
+      "label": "Hãng khác",
+      "value": 0
+    }
+  ],
+  "thietBi": [
+    {
+      "label": "Đồng hồ thông minh",
+      "value": 1
+    },
+    {
+      "label": "Vòng tay thông ming",
+      "value": 2
+    },
+    {
+      "label": "Khác",
+      "value": 0
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "64114b746a8c068021185787"
+  },
+  "danhMuc": 1,
+  "danhMucPhuId": 8,
+  "phuKien": [
+    {
+      "label": "Phụ kiện máy tính",
+      "value": 1
+    },
+    {
+      "label": "Phụ kiện điện thoại",
+      "value": 2
+    },
+    {
+      "label": "Khác",
+      "value": 0
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "64114b746a8c068021185788"
+  },
+  "danhMuc": 1,
+  "danhMucPhuId": 9,
+  "linhKien": [
+    {
+      "label": "Linh kiện máy tính",
+      "value": 1
+    },
+    {
+      "label": "Linh kiện điện thoại",
+      "value": 2
+    },
+    {
+      "label": "Khác",
+      "value": 0
+    }
+  ]
+}]
