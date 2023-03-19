@@ -37,7 +37,7 @@ router
     .patch(tinDangController.deleteVideo);
 
 router.use(authController.protect);
-router.use(authController.restrictTo('admin'));
+router.use(authController.restrictTo('Admin'));
 
 router
     .route('/getAllPosts')

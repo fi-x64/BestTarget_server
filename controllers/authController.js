@@ -54,7 +54,7 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError('Please provide email and password!', 400));
   }
   // 2) Check if user exists && password is correct
-  const user = await NguoiDung.findOne({ email }).select('+matKhau').populate('quyen');
+  const user = await NguoiDung.findOne({ email }).select('+matKhau');
 
   if (!user || !(await user.correctPassword(matKhau, user.matKhau))) {
     return next(new AppError('Incorrect email or password', 401));
@@ -83,7 +83,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
   // 3) Check if user still exists
-  const currentUser = await NguoiDung.findById(decoded.id).populate('quyen');
+  const currentUser = await NguoiDung.findById(decoded.id);
   if (!currentUser) {
     return next(
       new AppError(
@@ -187,7 +187,6 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
-  console.log("Check req.user: ", req.user);
   // 1) Get user from collection
   const user = await NguoiDung.findById(req.user.id).select('+matKhau');
 

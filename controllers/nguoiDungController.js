@@ -21,6 +21,24 @@ exports.getMe = (req, res, next) => {
   next();
 };
 
+exports.searchUser = catchAsync(async (req, res, next) => {
+  const values = req.query.keyWord;
+
+  const filteredData = await NguoiDung.find({
+    $or: [
+      { "hoTen": { $regex: '.*' + values + '.*', $options: 'i' } },
+      { "email": { $regex: '.*' + values + '.*', $options: 'i' } },
+      { "sdt": { $regex: '.*' + values + '.*', $options: 'i' } },
+    ]
+  }
+  )
+
+  res.status(200).json({
+    status: 'success',
+    data: filteredData
+  });
+});
+
 exports.updateMe = catchAsync(async (req, res, next) => {
   // 1) Create error if user POSTs password data
   if (req.body.matKhau || req.body.xacNhanMatKhau) {
@@ -75,8 +93,7 @@ exports.getAllTinhThanh = catchAsync(async (req, res) => {
 })
 
 exports.getUser = catchAsync(async (req, res, next) => {
-  console.log("Check req: ", req.params);
-  let query = NguoiDung.findById(req.params.id).populate('quyen');
+  let query = NguoiDung.findById(req.params.id);
   // query = query.populate({ path: 'diaChi.tinhTPCode', select: 'ten code' }).populate({ path: 'diaChi.quanHuyenCode', select: 'ten code' }).populate({ path: 'diaChi.phuongXaCode', select: 'ten code' });
 
   // let query = NguoiDung.aggregate([
@@ -121,7 +138,7 @@ exports.getUser = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getAllUsers = factory.getAll(NguoiDung);
+exports.getAllUsers = factory.getAll(NguoiDung, 'quyen');
 
 // Do NOT update passwords with this!
 exports.updateUser = factory.updateOne(NguoiDung);

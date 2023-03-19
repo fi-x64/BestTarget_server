@@ -10,7 +10,7 @@ router
   .route('/')
   .get(reviewController.getAllReviews)
   .post(
-    authController.restrictTo('user'),
+    authController.restrictTo('Người dùng'),
     reviewController.setTourUserIds,
     reviewController.createReview
   );
@@ -19,11 +19,11 @@ router
   .route('/:id')
   .get(reviewController.getReview)
   .patch(
-    authController.restrictTo('user', 'admin'),
+    authController.restrictTo('Người dùng', 'Admin'),
     reviewController.updateReview
   )
   .delete(
-    authController.restrictTo('user', 'admin'),
+    authController.restrictTo('Người dùng', 'Admin'),
     reviewController.deleteReview
   );
 

@@ -21,12 +21,16 @@ router
   .route('/getAllTinhThanh')
   .get(nguoiDungController.getAllTinhThanh);
 
-router.use(authController.restrictTo('admin'));
+router.use(authController.restrictTo('Admin'));
 
 router
   .route('/')
   .get(nguoiDungController.getAllUsers)
   .post(nguoiDungController.createUser);
+
+router
+  .route('/search')
+  .get(nguoiDungController.searchUser)
 
 router
   .route('/:id')

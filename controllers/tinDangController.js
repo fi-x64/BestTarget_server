@@ -11,7 +11,6 @@ const cloudinary = require('cloudinary');
 exports.getAllPosts = factory.getAll(TinDang);
 
 exports.createTinDang = catchAsync(async (req, res, next) => {
-    console.log("Check req.body: ", req.body);
     // 1) Create error if user POSTs password data
 
     const tinDang = await TinDang.create(req.body);
@@ -22,9 +21,6 @@ exports.createTinDang = catchAsync(async (req, res, next) => {
 });
 
 exports.editTinDang = catchAsync(async (req, res, next) => {
-    console.log("Check req.query: ", req.query);
-    console.log("Check req.body: ", req.body);
-
     const updatedTinDang = await TinDang.findByIdAndUpdate(req.query.postId, req.body, {
         new: true,
         runValidators: true

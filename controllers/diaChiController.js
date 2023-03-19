@@ -72,7 +72,6 @@ exports.getOnePhuongXa = catchAsync(async (req, res, next) => {
 
 exports.getOneDiaChi = catchAsync(async (req, res, next) => {
     // 1) Create error if user POSTs password data
-    console.log("Check req.query: ", req.query);
     const tinhThanh = await TinhTP.findById(req.query.tinhTPCode);
     const quanHuyen = await QuanHuyen.findById(req.query.quanHuyenCode);
     const phuongXa = await PhuongXa.findById(req.query.phuongXaCode);

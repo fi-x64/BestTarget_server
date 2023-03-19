@@ -77,16 +77,15 @@ const nguoiDungSchema = new mongoose.Schema({
     // default: 'user'
     type: mongoose.Schema.ObjectId, ref: 'Quyen'
   },
+  trangThai: {
+    type: Boolean,
+    default: true
+  },
   thoiGianChinhSua: Date,
   thoiGianDoiMatKhau: Date,
   tokenDatLaiMatKhau: String,
   hanDatLaiMatKhau: Date,
   thoiGianTao: { type: Date, default: Date.now },
-  trangThai: {
-    type: Boolean,
-    default: true,
-    select: false
-  }
 });
 
 nguoiDungSchema.pre('save', async function (next) {
@@ -108,9 +107,15 @@ nguoiDungSchema.pre('save', function (next) {
   next();
 });
 
+// nguoiDungSchema.pre(/^find/, function (next) {
+//   // this points to the current query
+//   this.find({ trangThai: { $ne: false } });
+//   next();
+// });
+
 nguoiDungSchema.pre(/^find/, function (next) {
   // this points to the current query
-  this.find({ trangThai: { $ne: false } });
+  this.find().populate('quyen');
   next();
 });
 

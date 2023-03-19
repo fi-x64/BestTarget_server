@@ -21,7 +21,7 @@ router
   .route('/monthly-plan/:year')
   .get(
     authController.protect,
-    authController.restrictTo('admin', 'lead-guide', 'guide'),
+    authController.restrictTo('Admin', 'Quản lý', 'Người dùng'),
     tourController.getMonthlyPlan
   );
 
@@ -38,7 +38,7 @@ router
   .get(tourController.getAllTours)
   .post(
     authController.protect,
-    authController.restrictTo('admin', 'lead-guide'),
+    authController.restrictTo('Admin', 'Quản lý'),
     tourController.createTour
   );
 
@@ -47,12 +47,12 @@ router
   .get(tourController.getTour)
   .patch(
     authController.protect,
-    authController.restrictTo('admin', 'lead-guide'),
+    authController.restrictTo('Admin', 'Quản lý'),
     tourController.updateTour
   )
   .delete(
     authController.protect,
-    authController.restrictTo('admin', 'lead-guide'),
+    authController.restrictTo('Admin', 'Quản lý'),
     tourController.deleteTour
   );
 
