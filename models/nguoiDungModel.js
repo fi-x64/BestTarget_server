@@ -31,7 +31,6 @@ const nguoiDungSchema = new mongoose.Schema({
   },
   xacNhanMatKhau: {
     type: String,
-    required: [true, 'Please confirm your password'],
     validate: {
       // This only works on CREATE and SAVE!!!
       validator: function (el) {
@@ -79,7 +78,7 @@ const nguoiDungSchema = new mongoose.Schema({
   },
   trangThai: {
     type: Boolean,
-    default: true
+    default: false
   },
   thoiGianChinhSua: Date,
   thoiGianDoiMatKhau: Date,

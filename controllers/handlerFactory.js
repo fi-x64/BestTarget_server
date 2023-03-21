@@ -18,7 +18,18 @@ exports.deleteOne = Model =>
 
 exports.updateOne = Model =>
   catchAsync(async (req, res, next) => {
-    const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
+    console.log("Check req.body: ", req.body);
+    const user = req.body;
+    if (user.quyen) {
+      user.quyen = user.quyen._id
+    }
+    if (user.matKhau) {
+      delete user.matKhau
+    }
+    if (user.xacNhanMatKhau) {
+      delete user.xacNhanMatKhau
+    }
+    const doc = await Model.findByIdAndUpdate(req.params.id, user, {
       new: true,
       runValidators: true
     });

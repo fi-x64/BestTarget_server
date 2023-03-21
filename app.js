@@ -14,6 +14,8 @@ const nguoiDungRouter = require('./routes/nguoiDungRoutes');
 const diaChiRouter = require('./routes/diaChiRoutes');
 const danhMucRouter = require('./routes/danhMucRoutes');
 const tinDangRouter = require('./routes/tinDangRoutes');
+const managerRouter = require('./routes/managerRoutes');
+
 // const reviewRouter = require('./routes/reviewRoutes');
 
 const app = express();
@@ -81,6 +83,7 @@ app.use('/api/users', nguoiDungRouter);
 app.use('/api/', diaChiRouter);
 app.use('/api/', danhMucRouter);
 app.use('/api/', tinDangRouter);
+// app.use('/api/', managerRouter);
 
 // app.use('/api/reviews', reviewRouter);
 

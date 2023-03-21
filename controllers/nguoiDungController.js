@@ -7,6 +7,7 @@ const Quyen = require('../models/quyenModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
+const cloudinary = require('cloudinary');
 
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
@@ -94,41 +95,12 @@ exports.getAllTinhThanh = catchAsync(async (req, res) => {
 
 exports.getUser = catchAsync(async (req, res, next) => {
   let query = NguoiDung.findById(req.params.id);
-  // query = query.populate({ path: 'diaChi.tinhTPCode', select: 'ten code' }).populate({ path: 'diaChi.quanHuyenCode', select: 'ten code' }).populate({ path: 'diaChi.phuongXaCode', select: 'ten code' });
-
-  // let query = NguoiDung.aggregate([
-  //   { $match: { _id: objectId } },
-  //   { $lookup: { from: 'tinhTP', localField: 'diaChi.tinhTPCode', foreignField: '_id', as: 'tinhTPData' } },
-  //   {
-  //     $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ["$tinhTPData", 0] }, "$$ROOT"] } }
-  //   },
-  //   // { $project: { tinhTPData: 0 } }
-  // ])
 
   const doc = await query;
 
   if (!doc) {
     return next(new AppError('No document found with that ID', 404));
   }
-
-  // let phuongXaData = await PhuongXa.findById(doc.diaChi[0].phuongXaCode).select('ten');
-  // for (var i = 0; i < doc.diaChi.length; i++) {
-  //   console.log("Check phuongXaData: ", phuongXaData);
-  //   // doc.diaChi[i] = phuongXaData;
-  //   doc.diaChi[i].phuongXaCode = [];
-  //   Object.assign(doc.diaChi[i].phuongXaCode, phuongXaData);
-  //   // doc.diaChi[i].phuongXaName = phuongXaData;
-  // }
-  // doc.diaChi.map(async (value, index) => {
-  //   phuongXaData = await PhuongXa.findById(value.phuongXaCode).select('ten');
-  //   return value.phuongXaName = phuongXaData.ten;
-  //   // Object.assign(value, phuongXaData.ten);
-  //   // const quanHuyenData = await PhuongXa.findById(value.quanHuyenCode);
-  //   // value.quanHuyenName = quanHuyenData.ten;
-  //   // const tinhTPData = await PhuongXa.findById(value.tinhTPCode);
-  //   // value.tinhTPName = tinhTPData.ten;
-
-  // })
 
   res.status(200).json({
     status: 'success',
@@ -140,6 +112,58 @@ exports.getUser = catchAsync(async (req, res, next) => {
 
 exports.getAllUsers = factory.getAll(NguoiDung, 'quyen');
 
+exports.changeAvatar = catchAsync(async (req, res, next) => {
+  console.log("Check req.params: ", req.params);
+  console.log("Check req.body: ", req.body);
+  const nguoiDung = await NguoiDung.findById(req.params.id);
+  if (nguoiDung) {
+    if (nguoiDung.anhDaiDien.url && req.body.anhDaiDien.url) {
+      cloudinary.v2.uploader.destroy(nguoiDung.anhDaiDien.public_id, function (error, result) {
+        // if (error) return res.json({ success: false, message: 'Something went wrong!' })
+      });
+      nguoiDung.anhDaiDien = req.body.anhDaiDien;
+      if (nguoiDung.quyen) {
+        nguoiDung.quyen = nguoiDung.quyen._id
+      }
+      console.log("Check nguoiDung: ", nguoiDung);
+      await nguoiDung.save();
+    }
+  }
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Avatar changed'
+  });
+});
+
 // Do NOT update passwords with this!
-exports.updateUser = factory.updateOne(NguoiDung);
+exports.updateUser = catchAsync(async (req, res, next) => {
+  const user = req.body;
+  if (user.quyen) {
+    user.quyen = user.quyen._id
+  }
+  if (user.matKhau) {
+    delete user.matKhau
+  }
+  if (user.xacNhanMatKhau) {
+    delete user.xacNhanMatKhau
+  }
+
+  var doc = await NguoiDung.findByIdAndUpdate(req.params.id, user, {
+    new: true,
+    runValidators: true
+  });
+
+  if (!doc) {
+    return next(new AppError('No document found with that ID', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: doc
+    }
+  });
+});
+
 exports.deleteUser = factory.deleteOne(NguoiDung);

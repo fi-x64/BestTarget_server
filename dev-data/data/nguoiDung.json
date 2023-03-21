@@ -1,22 +1,24 @@
 [
   {
-    "hoTen": "admin",
-    "email": "admin@gmail.com",
-    "anhDaiDien": "abc.jpg",
+    "anhDaiDien": {
+      "url": "http://res.cloudinary.com/dcqllxxrk/image/upload/v1678464740/Best_Target/Avatar/abhznpuw64zclwoez4rg.jpg",
+      "public_id": "Best_Target/Avatar/abhznpuw64zclwoez4rg"
+    },
+    "diaChi": {
+      "kinhDo": 2,
+      "viDo": 3,
+      "soNha": "5",
+      "phuongXaCode": "30280",
+      "quanHuyenCode": "883",
+      "tinhTPCode": "89"
+    },
     "matKhau": "$2a$12$Q0grHjH9PXc6SxivC8m12.2mZJ9BbKcgFpwSG4Y1ZEII8HJVzWeyS",
     "xacNhanMatKhau": "$2a$12$Q0grHjH9PXc6SxivC8m12.2mZJ9BbKcgFpwSG4Y1ZEII8HJVzWeyS",
     "gioiTinh": "M",
-    "diaChi": [
-      {
-        "kinhDo": "",
-        "viDo": "",
-        "soNha": "",
-        "phuongXaCode": "",
-        "quanHuyenCode": "",
-        "tinhThanh": ""
-      }
-    ],
-    "quyenId": "6400c36bfffb784e9ba899f7",
-    "trangThai": true
+    "trangThai": true,
+    "quyen": "64074e397906c710710e01bf",
+    "hoTen": "Nguyễn Văn A",
+    "email": "nguyenvana@gmail.com",
+    "sdt": "090148593"
   }
 ]
