@@ -85,7 +85,12 @@ const nguoiDungSchema = new mongoose.Schema({
   tokenDatLaiMatKhau: String,
   hanDatLaiMatKhau: Date,
   thoiGianTao: { type: Date, default: Date.now },
-});
+},
+  {
+    strict: false,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+  });
 
 nguoiDungSchema.pre('save', async function (next) {
   // Only run this function if password was actually modified

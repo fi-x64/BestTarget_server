@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const tinDangSchema = new mongoose.Schema(
     {
         nguoiDungId: {
-            type: mongoose.Mongoose.ObjectId,
-            required: [true, 'Cần có id người dùng!']
+            type: mongoose.Types.ObjectId,
+            ref: 'NguoiDung',
         },
         tieuDe: {
             type: String,

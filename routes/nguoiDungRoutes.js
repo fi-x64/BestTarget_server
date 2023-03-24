@@ -24,10 +24,10 @@ router
 
 router.use(authController.restrictTo('Admin'));
 
+
 router
-  .route('/')
-  .get(nguoiDungController.getAllUsers)
-  .post(nguoiDungController.createUser);
+  .route('/statisticsUserInWeek')
+  .get(nguoiDungController.statisticsUserInWeek)
 
 router
   .route('/search')
@@ -38,5 +38,12 @@ router
   .get(nguoiDungController.getUser)
   .patch(nguoiDungController.updateUser)
   .delete(nguoiDungController.deleteUser);
+
+router
+  .route('/')
+  .get(nguoiDungController.getAllUsers)
+  .post(nguoiDungController.createUser);
+
+
 
 module.exports = router;

@@ -37,10 +37,23 @@ router
     .patch(tinDangController.deleteVideo);
 
 router.use(authController.protect);
+
 router.use(authController.restrictTo('Admin'));
 
 router
     .route('/getAllPosts')
     .get(tinDangController.getAllPosts);
+
+router
+    .route('/getTinDangIdRestrict')
+    .get(tinDangController.getTinDangIdRestrict);
+
+router
+    .route('/statisticsPostInWeek')
+    .get(tinDangController.statisticsPostInWeek)
+
+router
+    .route('/statisticsPostInProvince')
+    .get(tinDangController.statisticsPostInProvince)
 
 module.exports = router;

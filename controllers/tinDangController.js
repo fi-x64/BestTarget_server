@@ -6,9 +6,24 @@ const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
 const { propfind } = require('../routes/tinDangRoutes');
 const cloudinary = require('cloudinary');
+const moment = require('moment');
 
 // exports.getAllDanhMuc = factory.getAll(DanhMuc);
-exports.getAllPosts = factory.getAll(TinDang);
+exports.getAllPosts = catchAsync(async (req, res, next) => {
+    // To allow for nested GET reviews on tour (hack)
+    // let filter = {};
+    // if (req.params.tourId) filter = { tour: req.params.tourId };
+
+    const features = await TinDang.find().populate('NguoiDung');
+    // const doc = await features.query.explain();
+
+    // SEND RESPONSE
+    res.status(200).json({
+        status: 'success',
+        results: features,
+        data: features
+    });
+});
 
 exports.createTinDang = catchAsync(async (req, res, next) => {
     // 1) Create error if user POSTs password data
@@ -88,6 +103,15 @@ exports.getTinDangId = catchAsync(async (req, res, next) => {
     });
 });
 
+exports.getTinDangIdRestrict = catchAsync(async (req, res, next) => {
+    const tinDang = await TinDang.findById(req.query.id);
+
+    res.status(200).json({
+        status: 'success',
+        data: tinDang
+    });
+});
+
 exports.deleteImage = catchAsync(async (req, res, next) => {
     const { imagePublicId } = req.body
     const tinDang = await TinDang.findById(req.query.postId);
@@ -119,5 +143,98 @@ exports.deleteVideo = catchAsync(async (req, res, next) => {
     res.status(200).json({
         status: 'success',
         message: 'Video deleted'
+    });
+});
+
+exports.statisticsPostInWeek = catchAsync(async (req, res, next) => {
+    const currentDate = moment().format('YYYY-MM-DD');
+    const lastWeekDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
+
+    const data = await TinDang.aggregate([
+        {
+            $unwind: '$thoiGianTao'
+        },
+        {
+            $match: {
+                thoiGianTao: {
+                    $gte: new Date(lastWeekDate),
+                    $lte: new Date(currentDate),
+                },
+            },
+        },
+        {
+            $sort: {
+                thoiGianTao: -1
+            }
+        },
+        {
+            $project: {
+                day: {
+                    $dayOfMonth: "$thoiGianTao"
+                },
+                month: {
+                    $month: "$thoiGianTao"
+                },
+                year: {
+                    $year: "$thoiGianTao"
+                },
+            },
+        },
+        {
+            $group: {
+                _id: {
+                    day: "$day",
+                    year: "$year",
+                    month: "$month",
+                },
+                count: {
+                    $sum: 1
+                },
+            },
+        },
+        {
+            $project: {
+                _id: 0,
+                day: "$_id.day",
+                month: "$_id.month",
+                year: "$_id.year",
+                count: "$count",
+            },
+        },
+    ]);
+
+    if (!data) {
+        return next(new AppError('No statistics found', 404));
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data: data
+    });
+});
+
+exports.statisticsPostInProvince = catchAsync(async (req, res, next) => {
+    const data = await TinDang.aggregate([
+        {
+            $group: {
+                _id: '$diaChiTinDang.tinhTPCode',
+                count: { $sum: 1 }
+            }
+        },
+        {
+            $sort: { count: -1 }
+        },
+        {
+            $limit: 10
+        }
+    ]);
+
+    if (!data) {
+        return next(new AppError('No statistics found', 404));
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data: data
     });
 });

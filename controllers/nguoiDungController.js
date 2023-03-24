@@ -8,6 +8,7 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
 const cloudinary = require('cloudinary');
+const moment = require('moment');
 
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
@@ -139,7 +140,7 @@ exports.changeAvatar = catchAsync(async (req, res, next) => {
 // Do NOT update passwords with this!
 exports.updateUser = catchAsync(async (req, res, next) => {
   const user = req.body;
-  if (user.quyen) {
+  if (user.quyen?._id) {
     user.quyen = user.quyen._id
   }
   if (user.matKhau) {
@@ -163,6 +164,73 @@ exports.updateUser = catchAsync(async (req, res, next) => {
     data: {
       data: doc
     }
+  });
+});
+
+exports.statisticsUserInWeek = catchAsync(async (req, res, next) => {
+  const currentDate = moment().format('YYYY-MM-DD');
+  const lastWeekDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
+
+  const data = await NguoiDung.aggregate([
+    {
+      $unwind: '$thoiGianTao'
+    },
+    {
+      $match: {
+        thoiGianTao: {
+          $gte: new Date(lastWeekDate),
+          $lte: new Date(currentDate),
+        },
+      },
+    },
+    {
+      $sort: {
+        thoiGianTao: -1
+      }
+    },
+    {
+      $project: {
+        day: {
+          $dayOfMonth: "$thoiGianTao"
+        },
+        month: {
+          $month: "$thoiGianTao"
+        },
+        year: {
+          $year: "$thoiGianTao"
+        },
+      },
+    },
+    {
+      $group: {
+        _id: {
+          day: "$day",
+          year: "$year",
+          month: "$month",
+        },
+        count: {
+          $sum: 1
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        day: "$_id.day",
+        month: "$_id.month",
+        year: "$_id.year",
+        count: "$count",
+      },
+    },
+  ]);
+
+  if (!data) {
+    return next(new AppError('No statistics found', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: data
   });
 });
 
