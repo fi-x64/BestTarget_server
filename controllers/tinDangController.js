@@ -10,18 +10,61 @@ const moment = require('moment');
 
 // exports.getAllDanhMuc = factory.getAll(DanhMuc);
 exports.getAllPosts = catchAsync(async (req, res, next) => {
-    // To allow for nested GET reviews on tour (hack)
-    // let filter = {};
-    // if (req.params.tourId) filter = { tour: req.params.tourId };
-
     const features = await TinDang.find().populate('NguoiDung');
-    // const doc = await features.query.explain();
 
     // SEND RESPONSE
     res.status(200).json({
         status: 'success',
         results: features,
         data: features
+    });
+});
+
+exports.getTinDangByValue = catchAsync(async (req, res, next) => {
+    console.log("Check req.body: ", req.body);
+    const values = req.body;
+
+    var data;
+    if (values?.danhMucPhuId) {
+        if (values?.keyWord) {
+            data = await TinDang.find({
+                $and: [{ danhMucPhuId: values.danhMucPhuId, trangThaiTin: 'Đang hiển thị' },
+                {
+                    $or: [
+                        { "tieuDe": { $regex: '.*' + values.keyWord + '.*', $options: 'i' } },
+                        { "moTa": { $regex: '.*' + values.keyWord + '.*', $options: 'i' } }
+                    ]
+                }
+                ]
+            }).sort({ thoiGianPush: 'desc' });
+        } else if (values?.hangSX) {
+            data = await TinDang.find(
+                { danhMucPhuId: values.danhMucPhuId, hangSX: values.hangSX, trangThaiTin: 'Đang hiển thị' }
+            ).sort({ thoiGianPush: 'desc' });
+        } else {
+            data = await TinDang.find(
+                { danhMucPhuId: values.danhMucPhuId, trangThaiTin: 'Đang hiển thị' },
+            ).sort({ thoiGianPush: 'desc' });
+        }
+    } else if (values?.keyWord) {
+        data = await TinDang.find({
+            $and: [{ trangThaiTin: 'Đang hiển thị' },
+            {
+                $or: [
+                    { "tieuDe": { $regex: '.*' + values.keyWord + '.*', $options: 'i' } },
+                    { "moTa": { $regex: '.*' + values.keyWord + '.*', $options: 'i' } }
+                ]
+            }]
+        }).sort({ thoiGianPush: 'desc' });
+    } else data = await TinDang.find().sort({ thoiGianPush: 'desc' });
+
+    // const features = await TinDang.find().populate('NguoiDung');
+    // // const doc = await features.query.explain();
+
+    // SEND RESPONSE
+    res.status(200).json({
+        status: 'success',
+        data: data
     });
 });
 

@@ -36,6 +36,10 @@ router
     .route('/deleteVideo')
     .patch(tinDangController.deleteVideo);
 
+router
+    .route('/getTinDangByValue')
+    .post(tinDangController.getTinDangByValue)
+
 router.use(authController.protect);
 
 router.use(authController.restrictTo('Admin'));
