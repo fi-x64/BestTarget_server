@@ -24,39 +24,83 @@ exports.getTinDangByValue = catchAsync(async (req, res, next) => {
     console.log("Check req.body: ", req.body);
     const values = req.body;
 
+    const query = {
+        $and: []
+    };
+
+    query.$and.push({ trangThaiTin: 'Đang hiển thị' })
+
+    if (values.danhMucPhuId) {
+        query.$and.push({ danhMucPhuId: parseInt(values.danhMucPhuId) });
+    }
+
+    if (values.keyWord) {
+        query.$or = [
+            { "tieuDe": { $regex: '.*' + values.keyWord + '.*', $options: 'i' } },
+            { "moTa": { $regex: '.*' + values.keyWord + '.*', $options: 'i' } }
+        ];
+    }
+
+    if (values.tinhTPCode) {
+        query.$and.push({ 'diaChiTinDang.tinhTPCode': parseInt(values.tinhTPCode) });
+    }
+
+    if (values.quanHuyenCode) {
+        query.$and.push({ 'diaChiTinDang.quanHuyenCode': parseInt(values.quanHuyenCode) });
+    }
+
+    if (values.hangSX) {
+        query.$and.push({ 'hangSX': parseInt(values.hangSX) });
+    }
+
+    if (values.giaMin && values.giaMax) {
+        const giaMin = parseInt(values.giaMin);
+        const giaMax = parseInt(values.giaMax);
+        if (giaMax < 30000001)
+            query.$and.push({ gia: { $gte: giaMin, $lte: giaMax } });
+        else
+            query.$and.push({ gia: { $gte: giaMin } });
+    }
+
     var data;
-    if (values?.danhMucPhuId) {
-        if (values?.keyWord) {
-            data = await TinDang.find({
-                $and: [{ danhMucPhuId: values.danhMucPhuId, trangThaiTin: 'Đang hiển thị' },
-                {
-                    $or: [
-                        { "tieuDe": { $regex: '.*' + values.keyWord + '.*', $options: 'i' } },
-                        { "moTa": { $regex: '.*' + values.keyWord + '.*', $options: 'i' } }
-                    ]
-                }
-                ]
-            }).sort({ thoiGianPush: 'desc' });
-        } else if (values?.hangSX) {
-            data = await TinDang.find(
-                { danhMucPhuId: values.danhMucPhuId, hangSX: values.hangSX, trangThaiTin: 'Đang hiển thị' }
-            ).sort({ thoiGianPush: 'desc' });
-        } else {
-            data = await TinDang.find(
-                { danhMucPhuId: values.danhMucPhuId, trangThaiTin: 'Đang hiển thị' },
-            ).sort({ thoiGianPush: 'desc' });
-        }
-    } else if (values?.keyWord) {
-        data = await TinDang.find({
-            $and: [{ trangThaiTin: 'Đang hiển thị' },
-            {
-                $or: [
-                    { "tieuDe": { $regex: '.*' + values.keyWord + '.*', $options: 'i' } },
-                    { "moTa": { $regex: '.*' + values.keyWord + '.*', $options: 'i' } }
-                ]
-            }]
-        }).sort({ thoiGianPush: 'desc' });
-    } else data = await TinDang.find().sort({ thoiGianPush: 'desc' });
+    if (values.sapXep === 'lowPricePriority') {
+        data = await TinDang.find(query).sort({ gia: 'asc' });
+    } else data = await TinDang.find(query).sort({ thoiGianPush: 'desc' });
+    console.log("Check query: ", query);
+    console.log("Check data: ", data);
+    // var data;
+    // if (values?.danhMucPhuId) {
+    //     if (values?.keyWord) {
+    //         data = await TinDang.find({
+    //             $and: [{ danhMucPhuId: values.danhMucPhuId, trangThaiTin: 'Đang hiển thị' },
+    //             {
+    //                 $or: [
+    //                     { "tieuDe": { $regex: '.*' + values.keyWord + '.*', $options: 'i' } },
+    //                     { "moTa": { $regex: '.*' + values.keyWord + '.*', $options: 'i' } }
+    //                 ]
+    //             }
+    //             ]
+    //         }).sort({ thoiGianPush: 'desc' });
+    //     } else if (values?.hangSX) {
+    //         data = await TinDang.find(
+    //             { danhMucPhuId: values.danhMucPhuId, hangSX: values.hangSX, trangThaiTin: 'Đang hiển thị' }
+    //         ).sort({ thoiGianPush: 'desc' });
+    //     } else {
+    //         data = await TinDang.find(
+    //             { danhMucPhuId: values.danhMucPhuId, trangThaiTin: 'Đang hiển thị' },
+    //         ).sort({ thoiGianPush: 'desc' });
+    //     }
+    // } else if (values?.keyWord) {
+    //     data = await TinDang.find({
+    //         $and: [{ trangThaiTin: 'Đang hiển thị' },
+    //         {
+    //             $or: [
+    //                 { "tieuDe": { $regex: '.*' + values.keyWord + '.*', $options: 'i' } },
+    //                 { "moTa": { $regex: '.*' + values.keyWord + '.*', $options: 'i' } }
+    //             ]
+    //         }]
+    //     }).sort({ thoiGianPush: 'desc' });
+    // } else data = await TinDang.find().sort({ thoiGianPush: 'desc' });
 
     // const features = await TinDang.find().populate('NguoiDung');
     // // const doc = await features.query.explain();
