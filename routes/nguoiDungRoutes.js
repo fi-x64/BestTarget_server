@@ -10,6 +10,10 @@ router.post('/forgotPassword', authController.forgotPassword);
 router.patch('/resetPassword/:token', authController.resetPassword);
 router.patch('/changeAvatar/:id', nguoiDungController.changeAvatar);
 
+router
+  .route('/:id')
+  .get(nguoiDungController.getUser)
+
 // Protect all routes after this middleware
 router.use(authController.protect);
 
@@ -35,7 +39,6 @@ router
 
 router
   .route('/:id')
-  .get(nguoiDungController.getUser)
   .patch(nguoiDungController.updateUser)
   .delete(nguoiDungController.deleteUser);
 

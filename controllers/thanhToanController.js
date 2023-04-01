@@ -177,31 +177,132 @@ exports.thanhToanVNPay = (req, res, next) => {
 exports.saveMomoPayment = catchAsync(async (req, res, next) => {
     const data = req.body;
 
-    if (data.userId) {
+    if (data.userId && data.values) {
+        const soTien = parseInt(data.values.amount);
+
         const hoaDonData = await HoaDon.findOne({
-            nguoiDungId: data.userId, soTien: data.values.amount,
+            nguoiDungId: data.userId, soTien: soTien,
             donViThanhToan: data.values.partnerCode, donDatId: data.values.orderId
         })
 
-        if (hoaDonData && data.values.resultCode == 0) {
-            const newHoaDon = await hoaDonData.save();
-            console.log("Check newHoaDon: ", newHoaDon);
-
-            const soTien = parseInt(data.values.amount);
-            const viTienData = await ViTien.findOne({ nguoiDungId: data.userId });
+        if (hoaDonData && !hoaDonData.ketQuaThanhToan && data.values.resultCode == 0) {
             hoaDonData.ketQuaThanhToan = true;
             hoaDonData.phuongThucThanhToan = data.values.payType;
+            const newHoaDon = await hoaDonData.save();
 
-            if (!viTienData) {
-                const newViTien = new ViTien({
-                    nguoiDungId: data.userId,
-                    tongSoDu: soTien
-                })
-                newViTien.save();
-            } else if (viTienData) {
-                viTienData.tongSoDu = viTienData.tongSoDu + soTien;
-                viTienData.save();
+            const viTienData = await ViTien.findOne({ nguoiDungId: data.userId });
+
+            if (newHoaDon) {
+                var newViTienData;
+                if (!viTienData) {
+                    const newViTien = new ViTien({
+                        nguoiDungId: data.userId,
+                        tongSoDu: soTien
+                    })
+                    newViTienData = await newViTien.save();
+                } else if (viTienData) {
+                    viTienData.tongSoDu = viTienData.tongSoDu + soTien;
+                    newViTienData = await viTienData.save();
+                }
+            }
+            if (newViTienData) {
+                res.status(200).json({
+                    status: 'success',
+                    message: 'Thanh toán thành cộng, đã cộng coin vào tài khoản của bạn'
+                });
+                return;
             }
         }
     }
+    res.status(200).json({
+        status: 'error',
+        message: 'Đã xảy ra lỗi khi thanh toán, hãy thử lại hoặc liên hệ trợ giúp'
+    });
 })
+
+exports.saveVNPayPayment = catchAsync(async (req, res, next) => {
+    const userId = req.body.userId;
+    var vnp_Params = req.body.values;
+
+    if (userId && vnp_Params) {
+        const soTien = parseInt(vnp_Params.vnp_Amount) / 100;
+
+        var secureHash = vnp_Params.vnp_SecureHash;
+
+        delete vnp_Params.vnp_SecureHash;
+        delete vnp_Params.vnp_SecureHashType;
+
+        vnp_Params = sortObject(vnp_Params);
+
+        var tmnCode = process.env.vnp_TmnCode;
+        var secretKey = process.env.vnp_HashSecret;
+
+        var signData = querystring.stringify(vnp_Params, { encode: false });
+        var hmac = crypto.createHmac("sha512", secretKey);
+        var signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex");
+
+        if (secureHash === signed) {
+            const hoaDonData = await HoaDon.findOne({
+                nguoiDungId: userId,
+                donViThanhToan: 'VNPay',
+                donDatId: vnp_Params.vnp_TransactionNo,
+                ketQuaThanhToan: true,
+            })
+            console.log("Check hoaDonData: ", hoaDonData);
+            if (!hoaDonData) {
+                //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
+                const hoaDon = new HoaDon({
+                    nguoiDungId: userId,
+                    donViThanhToan: 'VNPay',
+                    phuongThucThanhToan: vnp_Params.vnp_CardType,
+                    ketQuaThanhToan: true,
+                    soTien: soTien,
+                    donDatId: vnp_Params.vnp_TransactionNo
+                })
+
+                const newHoaDon = await hoaDon.save();
+
+                if (newHoaDon) {
+                    const viTienData = await ViTien.findOne({ nguoiDungId: userId });
+                    var newViTienData;
+                    if (!viTienData) {
+                        const newViTien = new ViTien({
+                            nguoiDungId: userId,
+                            tongSoDu: soTien
+                        })
+                        newViTienData = await newViTien.save();
+                    } else if (viTienData) {
+                        viTienData.tongSoDu = viTienData.tongSoDu + soTien;
+                        newViTienData = await viTienData.save();
+                    }
+                }
+                if (newViTienData) {
+                    res.status(200).json({
+                        status: 'success',
+                        message: 'Thanh toán thành cộng, đã cộng coin vào tài khoản của bạn'
+                    });
+                    return;
+                }
+            }
+        }
+    }
+    res.status(200).json({
+        status: 'error',
+        message: 'Đã xảy ra lỗi khi thanh toán, hãy thử lại hoặc liên hệ trợ giúp'
+    });
+})
+
+exports.getViTien = catchAsync(async (req, res, next) => {
+    const userId = req.query.userId;
+
+    const viTien = await ViTien.findOne({ nguoiDungId: userId });
+
+    if (!viTien) {
+        viTien.tongSoDu = 0;
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data: viTien
+    });
+});
