@@ -95,7 +95,7 @@ exports.getAllTinhThanh = catchAsync(async (req, res) => {
 })
 
 exports.getUser = catchAsync(async (req, res, next) => {
-  let query = NguoiDung.findById(req.params.id);
+  let query = NguoiDung.findById(req.query.userId);
 
   const doc = await query;
 

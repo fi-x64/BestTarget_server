@@ -22,7 +22,7 @@ exports.handleTimKiem = catchAsync(async (req, res, next) => {
         },
         {
             $match:
-                { "hangSX.label": { $regex: '.*' + values + '.*', $options: 'i' } }
+                { "hangSX.label": { $regex: '.*' + values + '.*', $options: 'i' }, }
         },
         {
             $project: {
@@ -40,10 +40,15 @@ exports.handleTimKiem = catchAsync(async (req, res, next) => {
     const tinDang = await TinDang.aggregate([
         {
             $match: {
-                $or: [
-                    { "tieuDe": { $regex: '.*' + values + '.*', $options: 'i' } },
-                    { "moTa": { $regex: '.*' + values + '.*', $options: 'i' } },
-                    { "trangThaiTin": "Đang hiển thị" }
+                $and: [
+                    { "trangThaiTin": "Đang hiển thị" },
+                    { "xoaMem": false },
+                    {
+                        $or: [
+                            { "tieuDe": { $regex: '.*' + values + '.*', $options: 'i' } },
+                            { "moTa": { $regex: '.*' + values + '.*', $options: 'i' } },
+                        ]
+                    }
                 ]
             },
         },

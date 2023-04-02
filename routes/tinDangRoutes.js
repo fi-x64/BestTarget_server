@@ -40,6 +40,10 @@ router
     .route('/getTinDangByValue')
     .post(tinDangController.getTinDangByValue)
 
+router
+    .route('/updateTinHetHan')
+    .get(tinDangController.updateTinHetHan)
+
 router.use(authController.protect);
 
 router.use(authController.restrictTo('Admin'));

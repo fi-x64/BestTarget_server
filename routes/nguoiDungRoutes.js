@@ -11,13 +11,13 @@ router.patch('/resetPassword/:token', authController.resetPassword);
 router.patch('/changeAvatar/:id', nguoiDungController.changeAvatar);
 
 router
-  .route('/:id')
+  .route('/profile')
   .get(nguoiDungController.getUser)
 
 // Protect all routes after this middleware
 router.use(authController.protect);
 
-router.get('/me', nguoiDungController.getMe, nguoiDungController.getUser);
+// router.get('/me', nguoiDungController.getUser);
 router.patch('/updateMyPassword', authController.updatePassword);
 router.patch('/updateMe', nguoiDungController.updateMe);
 router.delete('/deleteMe', nguoiDungController.deleteMe);
@@ -27,7 +27,6 @@ router
   .get(nguoiDungController.getAllTinhThanh);
 
 router.use(authController.restrictTo('Admin'));
-
 
 router
   .route('/statisticsUserInWeek')

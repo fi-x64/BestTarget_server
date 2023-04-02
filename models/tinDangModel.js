@@ -72,13 +72,17 @@ const tinDangSchema = new mongoose.Schema(
         },
         trangThaiTin: {
             type: String,
-            enum: ['Đang hiển thị', 'Hết hạn', 'Bị từ chối', "Cần thanh toán", "Đang đợi duyệt"],
+            enum: ['Đang hiển thị', 'Hết hạn', 'Bị từ chối', "Tin đã ẩn", "Đang đợi duyệt"],
             default: 'Đang đợi duyệt'
         },
         tinhTrang: {
             type: String,
             enum: ["Mới", "Đã sử dụng (chưa sửa chửa)", "Đã sử dụng (qua sửa chửa)"]
         },
+        xoaMem: {
+            type: Boolean,
+            default: false
+        }
     },
     {
         strict: false,
@@ -86,6 +90,12 @@ const tinDangSchema = new mongoose.Schema(
         toObject: { virtuals: true }
     }
 );
+
+tinDangSchema.pre(/^find/, function (next) {
+    // this points to the current query
+    this.find({ xoaMem: false });
+    next();
+});
 
 const TinDang = mongoose.model('tinDang', tinDangSchema);
 

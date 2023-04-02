@@ -146,6 +146,11 @@ exports.getGoiY = catchAsync(async (req, res, next) => {
 exports.countTrangThaiTin = catchAsync(async (req, res, next) => {
     const data = await TinDang.aggregate([
         {
+            $match: {
+                xoaMem: false
+            },
+        },
+        {
             $group: {
                 _id: '$trangThaiTin',
                 soLuong: { $sum: 1 },
@@ -173,7 +178,7 @@ exports.getTinDang = catchAsync(async (req, res, next) => {
     else if (key === 4)
         data = await TinDang.find({ trangThaiTin: "Đang đợi duyệt" });
     else if (key === 5)
-        data = await TinDang.find({ trangThaiTin: "Khác" });
+        data = await TinDang.find({ trangThaiTin: "Tin đã ẩn" });
 
     res.status(200).json({
         status: 'success',
@@ -230,6 +235,23 @@ exports.deleteVideo = catchAsync(async (req, res, next) => {
     res.status(200).json({
         status: 'success',
         message: 'Video deleted'
+    });
+});
+
+exports.updateTinHetHan = catchAsync(async (req, res, next) => {
+    // const sixtyDaysAgo = new Date();
+    // sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60);
+    const currentDate = Date.now();
+    const sixtyDaysAgo = moment(currentDate).subtract(60, 'days');
+    const seventyFiveDaysAgo = moment(currentDate).subtract(75, 'days');
+    const fiveDaysAgo = moment(currentDate).subtract(15, "days");
+    await TinDang.updateMany({ thoiGianPush: { $lte: sixtyDaysAgo, $gte: seventyFiveDaysAgo }, trangThaiTin: { $ne: 'Bị từ chối' } }, { trangThaiTin: 'Hết hạn' })
+    await TinDang.updateMany({ thoiGianPush: { $lte: seventyFiveDaysAgo }, trangThaiTin: { $ne: 'Bị từ chối' } }, { trangThaiTin: 'Hết hạn', xoaMem: true })
+    await TinDang.updateMany({ thoiGianPush: { $lte: fiveDaysAgo }, trangThaiTin: 'Bị từ chối' }, { trangThaiTin: 'Hết hạn', xoaMem: true })
+
+    res.status(200).json({
+        status: 'success',
+        message: 'Cập nhật tin hết hạn thành công'
     });
 });
 
