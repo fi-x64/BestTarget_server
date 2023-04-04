@@ -4,7 +4,23 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
+router
+    .route('/getListDangTheoDoi')
+    .get(theoDoiController.getListFollowing);
+
+router
+    .route('/getListNguoiTheoDoi')
+    .get(theoDoiController.getListFollower);
+
 router.use(authController.protect);
+
+router
+    .route('/getListLoggedDangTheoDoi')
+    .get(theoDoiController.getListLoggedFollowing);
+
+router
+    .route('/getListLoggedNguoiTheoDoi')
+    .get(theoDoiController.getListLoggedFollower);
 
 router
     .route('/themTheoDoi')
@@ -13,13 +29,5 @@ router
 router
     .route('/xoaTheoDoi')
     .get(theoDoiController.xoaTheoDoi);
-
-router
-    .route('/getListDangTheoDoi')
-    .get(theoDoiController.getListFollowing);
-
-router
-    .route('/getListNguoiTheoDoi')
-    .get(theoDoiController.getListFollower);
 
 module.exports = router;

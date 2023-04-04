@@ -18,6 +18,7 @@ const timKiemRouter = require('./routes/timKiemRoutes');
 const menhGiaRouter = require('./routes/menhGiaRoutes');
 const thanhToanRouter = require('./routes/thanhToanRoutes');
 const theoDoiRouter = require('./routes/theoDoiRoutes');
+const tinYeuThichRouter = require('./routes/tinYeuThichRoutes');
 const managerRouter = require('./routes/managerRoutes');
 
 // const reviewRouter = require('./routes/reviewRoutes');
@@ -84,13 +85,14 @@ cloudinary.config({
 
 // 3) ROUTES
 app.use('/api/users', nguoiDungRouter);
-app.use('/api/', timKiemRouter);
-app.use('/api/', menhGiaRouter);
-app.use('/api/', theoDoiRouter);
-app.use('/api/', thanhToanRouter);
-app.use('/api/', diaChiRouter);
-app.use('/api/', danhMucRouter);
-app.use('/api/', tinDangRouter);
+app.use('/api/tinDang', tinDangRouter);
+app.use('/api/timKiem', timKiemRouter);
+app.use('/api/menhGia', menhGiaRouter);
+app.use('/api/theoDoi', theoDoiRouter);
+app.use('/api/thanhToan', thanhToanRouter);
+app.use('/api/diaChi', diaChiRouter);
+app.use('/api/danhMuc', danhMucRouter);
+app.use('/api/tinYeuThich', tinYeuThichRouter);
 // app.use('/api/', managerRouter);
 
 // app.use('/api/reviews', reviewRouter);

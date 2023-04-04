@@ -68,42 +68,6 @@ exports.getTinDangByValue = catchAsync(async (req, res, next) => {
     } else data = await TinDang.find(query).sort({ thoiGianPush: 'desc' });
     console.log("Check query: ", query);
     console.log("Check data: ", data);
-    // var data;
-    // if (values?.danhMucPhuId) {
-    //     if (values?.keyWord) {
-    //         data = await TinDang.find({
-    //             $and: [{ danhMucPhuId: values.danhMucPhuId, trangThaiTin: 'Đang hiển thị' },
-    //             {
-    //                 $or: [
-    //                     { "tieuDe": { $regex: '.*' + values.keyWord + '.*', $options: 'i' } },
-    //                     { "moTa": { $regex: '.*' + values.keyWord + '.*', $options: 'i' } }
-    //                 ]
-    //             }
-    //             ]
-    //         }).sort({ thoiGianPush: 'desc' });
-    //     } else if (values?.hangSX) {
-    //         data = await TinDang.find(
-    //             { danhMucPhuId: values.danhMucPhuId, hangSX: values.hangSX, trangThaiTin: 'Đang hiển thị' }
-    //         ).sort({ thoiGianPush: 'desc' });
-    //     } else {
-    //         data = await TinDang.find(
-    //             { danhMucPhuId: values.danhMucPhuId, trangThaiTin: 'Đang hiển thị' },
-    //         ).sort({ thoiGianPush: 'desc' });
-    //     }
-    // } else if (values?.keyWord) {
-    //     data = await TinDang.find({
-    //         $and: [{ trangThaiTin: 'Đang hiển thị' },
-    //         {
-    //             $or: [
-    //                 { "tieuDe": { $regex: '.*' + values.keyWord + '.*', $options: 'i' } },
-    //                 { "moTa": { $regex: '.*' + values.keyWord + '.*', $options: 'i' } }
-    //             ]
-    //         }]
-    //     }).sort({ thoiGianPush: 'desc' });
-    // } else data = await TinDang.find().sort({ thoiGianPush: 'desc' });
-
-    // const features = await TinDang.find().populate('NguoiDung');
-    // // const doc = await features.query.explain();
 
     // SEND RESPONSE
     res.status(200).json({
@@ -347,3 +311,29 @@ exports.statisticsPostInProvince = catchAsync(async (req, res, next) => {
         data: data
     });
 });
+
+// exports.themWishlist = catchAsync(async (req, res, next) => {
+//     const data = await TinDang.aggregate([
+//         {
+//             $group: {
+//                 _id: '$diaChiTinDang.tinhTPCode',
+//                 count: { $sum: 1 }
+//             }
+//         },
+//         {
+//             $sort: { count: -1 }
+//         },
+//         {
+//             $limit: 10
+//         }
+//     ]);
+
+//     if (!data) {
+//         return next(new AppError('No statistics found', 404));
+//     }
+
+//     res.status(200).json({
+//         status: 'success',
+//         data: data
+//     });
+// });
