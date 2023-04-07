@@ -7,6 +7,8 @@ const crypto = require("crypto");
 const https = require('https');
 const ViTien = require('../models/viTienModel');
 const HoaDon = require('../models/hoaDonModel');
+const NguoiDung = require('../models/nguoiDungModel');
+const GoiDangKy = require('../models/goiDangKyModel');
 
 exports.thanhToanMomo = (req, response, next) => {
     if (req.query.soTien && req.query.userId) {
@@ -188,6 +190,7 @@ exports.saveMomoPayment = catchAsync(async (req, res, next) => {
         if (hoaDonData && !hoaDonData.ketQuaThanhToan && data.values.resultCode == 0) {
             hoaDonData.ketQuaThanhToan = true;
             hoaDonData.phuongThucThanhToan = data.values.payType;
+            hoaDonData.hinhThuc = 'Nạp tiền';
             const newHoaDon = await hoaDonData.save();
 
             const viTienData = await ViTien.findOne({ nguoiDungId: data.userId });
@@ -257,7 +260,8 @@ exports.saveVNPayPayment = catchAsync(async (req, res, next) => {
                     phuongThucThanhToan: vnp_Params.vnp_CardType,
                     ketQuaThanhToan: true,
                     soTien: soTien,
-                    donDatId: vnp_Params.vnp_TransactionNo
+                    donDatId: vnp_Params.vnp_TransactionNo,
+                    hinhThuc: 'Nạp tiền'
                 })
 
                 const newHoaDon = await hoaDon.save();
@@ -304,5 +308,67 @@ exports.getViTien = catchAsync(async (req, res, next) => {
     res.status(200).json({
         status: 'success',
         data: viTien
+    });
+});
+
+exports.thanhToanCoin = catchAsync(async (req, res, next) => {
+    const userId = req.body.userId;
+    const soTien = parseInt(req.body.soTien);
+    const soLuongTinDang = parseInt(req.body.soLuongTinDang);
+    const goiId = req.body.goiId;
+
+    if (userId && soTien) {
+        const viTien = await ViTien.findOne({ nguoiDungId: userId });
+
+        if (viTien) {
+            if (viTien.tongSoDu >= soTien) {
+                viTien.tongSoDu -= soTien;
+                const newViTien = await viTien.save();
+
+                if (newViTien) {
+                    var donDatId = "BestTarget" + new Date().getTime();
+                    const hoaDon = new HoaDon({
+                        nguoiDungId: userId,
+                        donViThanhToan: 'BestTarget',
+                        ketQuaThanhToan: true,
+                        soTien: soTien,
+                        hinhThuc: 'Chuyển tiền',
+                        donDatId: donDatId
+                    })
+
+                    const newHoaDon = await hoaDon.save();
+
+                    if (newHoaDon) {
+                        const userData = await NguoiDung.findById(userId);
+                        if (userData) {
+                            if (soLuongTinDang) {
+                                userData.goiTinDang.soLuongTinDang += soLuongTinDang;
+
+                                if (goiId) {
+                                    userData.goiTinDang.id = goiId;
+                                }
+                            } else {
+                                userData.goiTinDang.soLuongTinDang += 1;
+                            }
+                        }
+
+                        const newUserData = userData.save();
+
+                        if (newUserData) {
+                            res.status(200).json({
+                                status: 'success',
+                                message: 'Thanh toán thành công'
+                            });
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    res.status(200).json({
+        status: 'error',
+        message: 'Thanh toán không thành công'
     });
 });

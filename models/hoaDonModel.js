@@ -10,6 +10,9 @@ const hoaDonSchema = new mongoose.Schema(
         donViThanhToan: {
             type: String,
         },
+        hinhThuc: {
+            type: String,
+        },
         phuongThucThanhToan: {
             type: String
         },

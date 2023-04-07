@@ -50,7 +50,6 @@ exports.xoaTinYeuThich = catchAsync(async (req, res, next) => {
             { nguoiDungId: userId },
             { $pull: { tinYeuThichId: tinDangId } },
         )
-        console.log("Check data: ", data);
     }
     res.status(200).json({
         status: 'success',

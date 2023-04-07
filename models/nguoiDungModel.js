@@ -70,6 +70,20 @@ const nguoiDungSchema = new mongoose.Schema({
       type: String
     },
   },
+  lyDoKhoaTaiKhoan: {
+    type: String
+  },
+  goiTinDang: {
+    id: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'goidangky',
+      default: mongoose.Types.ObjectId('642d8cf41c396b8a219d01b2')
+    },
+    soLuongTinDang: {
+      type: Number,
+      default: 10
+    }
+  },
   quyen: {
     // type: String,
     // enum: ['user', 'admin', 'manager'],
@@ -119,7 +133,7 @@ nguoiDungSchema.pre('save', function (next) {
 
 nguoiDungSchema.pre(/^find/, function (next) {
   // this points to the current query
-  this.find().populate('quyen');
+  this.find().populate('quyen').populate('goiTinDang.id');
   next();
 });
 

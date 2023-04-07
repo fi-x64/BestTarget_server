@@ -1,0 +1,26 @@
+[
+    {
+        "goiId": 1,
+        "tenGoi": "Gói thường",
+        "giaTien": 0,
+        "soLuongTin": 10
+    },
+    {
+        "goiId": 2,
+        "tenGoi": "Gói Premium",
+        "giaTien": 400000,
+        "soLuongTin": 50
+    },
+    {
+        "goiId": 3,
+        "tenGoi": "Gói VIP",
+        "giaTien": 750000,
+        "soLuongTin": 100
+    },
+    {
+        "goiId": 4,
+        "tenGoi": "Mua lượt đăng nhanh",
+        "giaTien": 10000,
+        "soLuongTin": 1
+    }
+]

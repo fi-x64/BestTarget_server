@@ -17,7 +17,7 @@ router
 // Protect all routes after this middleware
 router.use(authController.protect);
 
-// router.get('/me', nguoiDungController.getUser);
+router.get('/me', nguoiDungController.getMe, nguoiDungController.getUser);
 router.patch('/updateMyPassword', authController.updatePassword);
 router.patch('/updateMe', nguoiDungController.updateMe);
 router.delete('/deleteMe', nguoiDungController.deleteMe);

@@ -23,4 +23,8 @@ router
     .route('/getViTien')
     .get(thanhToanController.getViTien);
 
+router
+    .route('/thanhToanCoin')
+    .post(thanhToanController.thanhToanCoin);
+
 module.exports = router;

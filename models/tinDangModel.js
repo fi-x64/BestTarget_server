@@ -31,7 +31,8 @@ const tinDangSchema = new mongoose.Schema(
         thoiGianTao: { type: Date, default: Date.now },
         thoiGianPush: { type: Date, default: Date.now },
         nguoiDungId: {
-            type: mongoose.Types.ObjectId,
+            type: mongoose.Schema.ObjectId,
+            ref: 'NguoiDung',
         },
         hinhAnh: [{
             url: {
@@ -49,6 +50,9 @@ const tinDangSchema = new mongoose.Schema(
                 type: String
             }
         }],
+        lyDoTuChoi: {
+            type: String,
+        },
         diaChiTinDang:
         {
             kinhDo: Number,

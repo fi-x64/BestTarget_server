@@ -10,7 +10,7 @@ const moment = require('moment');
 
 // exports.getAllDanhMuc = factory.getAll(DanhMuc);
 exports.getAllPosts = catchAsync(async (req, res, next) => {
-    const features = await TinDang.find().populate('NguoiDung');
+    const features = await TinDang.find().populate('nguoiDungId');
 
     // SEND RESPONSE
     res.status(200).json({
@@ -66,8 +66,6 @@ exports.getTinDangByValue = catchAsync(async (req, res, next) => {
     if (values.sapXep === 'lowPricePriority') {
         data = await TinDang.find(query).sort({ gia: 'asc' });
     } else data = await TinDang.find(query).sort({ thoiGianPush: 'desc' });
-    console.log("Check query: ", query);
-    console.log("Check data: ", data);
 
     // SEND RESPONSE
     res.status(200).json({
