@@ -7,6 +7,9 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cors = require('cors');
 const cloudinary = require('cloudinary');
+const schedule = require('node-schedule');
+const http = require('http');
+const socketIo = require('socket.io');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -21,10 +24,20 @@ const thanhToanRouter = require('./routes/thanhToanRoutes');
 const theoDoiRouter = require('./routes/theoDoiRoutes');
 const tinYeuThichRouter = require('./routes/tinYeuThichRoutes');
 const managerRouter = require('./routes/managerRoutes');
+const NguoiDung = require('./models/nguoiDungModel');
 
 // const reviewRouter = require('./routes/reviewRoutes');
 
 const app = express();
+
+const server = http.createServer(app);
+const io = new socketIo.Server(server, {
+  cors: {
+    origin: '*',
+  },
+});
+
+server.listen(3001);
 
 app.use(cors());
 // 1) GLOBAL MIDDLEWARES
@@ -84,6 +97,36 @@ cloudinary.config({
   secure: true
 });
 
+io.on('connection', (socket) => {
+
+  socket.on('currentUserId', async (userId) => {
+    const userData = await NguoiDung.findById(userId);
+    socket.emit('cuurentUserData', { userData });
+  });
+})
+
+//Schedule tasks
+//*/10 * * * * *
+//0 0 1 * *
+schedule.scheduleJob('*/0 0 1 * *', async function () {
+  const values = {
+    "goiTinDang": {
+      id: '642d8cf41c396b8a219d01b2',
+      soLuongTinDang: 10
+    }
+  }
+  try {
+    // Lấy tất cả các document trong collection của model
+    const newNguoiDung = await NguoiDung.updateMany({}, values);
+    if (newNguoiDung) {
+      console.log("Reset dữ liệu gói thành công");
+      io.sockets.emit('goiTinDang_updated', { status: "success" });
+    }
+  } catch (error) {
+    console.log('Loi trong qua trinh reset so luong tin dang: ', error);
+  }
+});
+
 // 3) ROUTES
 app.use('/api/users', nguoiDungRouter);
 app.use('/api/tinDang', tinDangRouter);
@@ -102,6 +145,8 @@ app.use('/api/tinYeuThich', tinYeuThichRouter);
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
+
+// server.listen(3000);
 
 app.use(globalErrorHandler);
 
