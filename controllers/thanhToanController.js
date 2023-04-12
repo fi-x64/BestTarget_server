@@ -297,12 +297,13 @@ exports.saveVNPayPayment = catchAsync(async (req, res, next) => {
 })
 
 exports.getViTien = catchAsync(async (req, res, next) => {
-    const userId = req.query.userId;
-
-    const viTien = await ViTien.findOne({ nguoiDungId: userId });
+    const userId = req.user.id;
+    let viTien;
+    viTien = await ViTien.findOne({ nguoiDungId: userId });
+    console.log("Check viTien: ", viTien);
 
     if (!viTien) {
-        viTien.tongSoDu = 0;
+        viTien = { tongSoDu: 0 }
     }
 
     res.status(200).json({

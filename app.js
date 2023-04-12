@@ -10,6 +10,8 @@ const cloudinary = require('cloudinary');
 const schedule = require('node-schedule');
 const http = require('http');
 const socketIo = require('socket.io');
+const io = require('./utils/socketio');
+const mongoose = require('mongoose');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -22,22 +24,25 @@ const menhGiaRouter = require('./routes/menhGiaRoutes');
 const goiDangKyRouter = require('./routes/goiDangKyRoutes');
 const thanhToanRouter = require('./routes/thanhToanRoutes');
 const theoDoiRouter = require('./routes/theoDoiRoutes');
+const thongBaoRouter = require('./routes/thongBaoRoutes');
 const tinYeuThichRouter = require('./routes/tinYeuThichRoutes');
+const khuyenMaiRouter = require('./routes/khuyenMaiRoutes');
 const managerRouter = require('./routes/managerRoutes');
 const NguoiDung = require('./models/nguoiDungModel');
+const { getAllThongBaoQuery } = require('./controllers/thongBaoController');
 
 // const reviewRouter = require('./routes/reviewRoutes');
 
 const app = express();
 
-const server = http.createServer(app);
-const io = new socketIo.Server(server, {
-  cors: {
-    origin: '*',
-  },
-});
+// const server = http.createServer(app);
+// const io = new socketIo.Server(server, {
+//   cors: {
+//     origin: '*',
+//   },
+// });
 
-server.listen(3001);
+// server.listen(3001);
 
 app.use(cors());
 // 1) GLOBAL MIDDLEWARES
@@ -98,10 +103,9 @@ cloudinary.config({
 });
 
 io.on('connection', (socket) => {
-
   socket.on('currentUserId', async (userId) => {
     const userData = await NguoiDung.findById(userId);
-    socket.emit('cuurentUserData', { userData });
+    socket.emit(`cuurentUserData_${userId}`, { userData });
   });
 })
 
@@ -131,7 +135,9 @@ schedule.scheduleJob('*/0 0 1 * *', async function () {
 app.use('/api/users', nguoiDungRouter);
 app.use('/api/tinDang', tinDangRouter);
 app.use('/api/timKiem', timKiemRouter);
+app.use('/api/thongBao', thongBaoRouter);
 app.use('/api/menhGia', menhGiaRouter);
+app.use('/api/khuyenMai', khuyenMaiRouter);
 app.use('/api/goiDangKy', goiDangKyRouter);
 app.use('/api/theoDoi', theoDoiRouter);
 app.use('/api/thanhToan', thanhToanRouter);

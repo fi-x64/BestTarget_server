@@ -1,0 +1,35 @@
+[
+    {
+        "nguoiDungId": "64074e99002eba5a852968a0",
+        "chiTiet": [
+            {
+                "noiDung": "Tin đăng của bạn đã được duyệt",
+                "tinDangId": "641340eafa594d38e9158d00",
+                "loai": "tinDuocDuyet",
+                "ngayThongBao": "2023-03-19T19:19:18.190+00:00",
+                "daDoc": false
+            },
+            {
+                "noiDung": "Tin đăng của bạn đã được duyệt",
+                "tinDangId": "641340eafa594d38e9158d00",
+                "loai": "tinDuocDuyet",
+                "ngayThongBao": "2023-03-19T19:19:18.190+00:00",
+                "daDoc": false
+            },
+            {
+                "noiDung": "Tin đăng của bạn gần hết hạn",
+                "tinDangId": "641340eafa594d38e9158d00",
+                "loai": "tinGanHetHan",
+                "ngayThongBao": "2023-03-19T19:19:18.190+00:00",
+                "daDoc": false
+            },
+            {
+                "noiDung": "Tin đăng của bạn gần hết hạn",
+                "tinDangId": "641340eafa594d38e9158d00",
+                "loai": "tinDaHetHan",
+                "ngayThongBao": "2023-03-19T19:19:18.190+00:00",
+                "daDoc": false
+            }
+        ]
+    }
+]

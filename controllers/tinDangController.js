@@ -7,6 +7,7 @@ const factory = require('./handlerFactory');
 const { propfind } = require('../routes/tinDangRoutes');
 const cloudinary = require('cloudinary');
 const moment = require('moment');
+const mongoose = require('mongoose');
 
 // exports.getAllDanhMuc = factory.getAll(DanhMuc);
 exports.getAllPosts = catchAsync(async (req, res, next) => {
@@ -21,7 +22,6 @@ exports.getAllPosts = catchAsync(async (req, res, next) => {
 });
 
 exports.getTinDangByValue = catchAsync(async (req, res, next) => {
-    console.log("Check req.body: ", req.body);
     const values = req.body;
 
     const query = {
@@ -106,41 +106,47 @@ exports.getGoiY = catchAsync(async (req, res, next) => {
 });
 
 exports.countTrangThaiTin = catchAsync(async (req, res, next) => {
-    const data = await TinDang.aggregate([
-        {
-            $match: {
-                xoaMem: false
-            },
-        },
-        {
-            $group: {
-                _id: '$trangThaiTin',
-                soLuong: { $sum: 1 },
-            }
-        }
-    ]);
+    const userId = req.query.userId;
 
-    res.status(200).json({
-        status: 'success',
-        data: data
-    });
+    if (userId) {
+        const data = await TinDang.aggregate([
+            {
+                $match: {
+                    nguoiDungId: mongoose.Types.ObjectId(userId),
+                    xoaMem: false
+                },
+            },
+            {
+                $group: {
+                    _id: '$trangThaiTin',
+                    soLuong: { $sum: 1 },
+                }
+            }
+        ]);
+
+        res.status(200).json({
+            status: 'success',
+            data: data
+        });
+    }
 });
 
 exports.getTinDang = catchAsync(async (req, res, next) => {
+    const userId = req.query.userId;
     const key = parseInt(req.query.phanLoai);
 
     var data;
 
     if (key === 1)
-        data = await TinDang.find({ trangThaiTin: "Đang hiển thị" });
+        data = await TinDang.find({ nguoiDungId: userId, trangThaiTin: "Đang hiển thị" });
     else if (key === 2)
-        data = await TinDang.find({ trangThaiTin: "Hết hạn" });
+        data = await TinDang.find({ nguoiDungId: userId, trangThaiTin: "Hết hạn" });
     else if (key === 3)
-        data = await TinDang.find({ trangThaiTin: "Bị từ chối" });
+        data = await TinDang.find({ nguoiDungId: userId, trangThaiTin: "Bị từ chối" });
     else if (key === 4)
-        data = await TinDang.find({ trangThaiTin: "Đang đợi duyệt" });
+        data = await TinDang.find({ nguoiDungId: userId, trangThaiTin: "Đang đợi duyệt" });
     else if (key === 5)
-        data = await TinDang.find({ trangThaiTin: "Tin đã ẩn" });
+        data = await TinDang.find({ nguoiDungId: userId, trangThaiTin: "Tin đã ẩn" });
 
     res.status(200).json({
         status: 'success',
@@ -149,7 +155,7 @@ exports.getTinDang = catchAsync(async (req, res, next) => {
 });
 
 exports.getTinDangId = catchAsync(async (req, res, next) => {
-    const tinDang = await TinDang.findOne({ _id: req.query.id, trangThaiTin: 'Đang hiển thị' });
+    const tinDang = await TinDang.findOne({ _id: req.query.id, trangThaiTin: 'Đang hiển thị' }).populate('nguoiDungId');
 
     res.status(200).json({
         status: 'success',
@@ -158,7 +164,7 @@ exports.getTinDangId = catchAsync(async (req, res, next) => {
 });
 
 exports.getTinDangIdRestrict = catchAsync(async (req, res, next) => {
-    const tinDang = await TinDang.findById(req.query.id);
+    const tinDang = await TinDang.findById(req.query.id).populate('nguoiDungId');
 
     res.status(200).json({
         status: 'success',

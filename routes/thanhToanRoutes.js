@@ -1,5 +1,6 @@
 const express = require('express');
 const thanhToanController = require('../controllers/thanhToanController');
+const authController = require('../controllers/authController');
 
 const router = express.Router();
 
@@ -20,11 +21,14 @@ router
     .post(thanhToanController.saveVNPayPayment);
 
 router
+    .route('/thanhToanCoin')
+    .post(thanhToanController.thanhToanCoin);
+
+router.use(authController.protect);
+
+router
     .route('/getViTien')
     .get(thanhToanController.getViTien);
 
-router
-    .route('/thanhToanCoin')
-    .post(thanhToanController.thanhToanCoin);
 
 module.exports = router;

@@ -114,8 +114,6 @@ exports.getUser = catchAsync(async (req, res, next) => {
 exports.getAllUsers = factory.getAll(NguoiDung, 'quyen');
 
 exports.changeAvatar = catchAsync(async (req, res, next) => {
-  console.log("Check req.params: ", req.params);
-  console.log("Check req.body: ", req.body);
   const nguoiDung = await NguoiDung.findById(req.params.id);
   if (nguoiDung) {
     if (nguoiDung.anhDaiDien.url && req.body.anhDaiDien.url) {

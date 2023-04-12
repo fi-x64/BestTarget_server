@@ -88,7 +88,7 @@ exports.getListFollowing = catchAsync(async (req, res, next) => {
     var count = 0;
 
     if (data) {
-        count = data[0].nguoiDung.length;
+        count = data[0]?.nguoiDung.length;
     } else count = 0;
 
     res.status(200).json({

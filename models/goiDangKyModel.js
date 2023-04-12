@@ -25,6 +25,6 @@ const goiDangKySchema = new mongoose.Schema(
     }
 );
 
-const GoiDangKy = mongoose.model('goidangky', goiDangKySchema);
+const GoiDangKy = mongoose.model('goiDangKy', goiDangKySchema);
 
 module.exports = GoiDangKy;

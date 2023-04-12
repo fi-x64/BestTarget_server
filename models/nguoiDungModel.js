@@ -76,7 +76,7 @@ const nguoiDungSchema = new mongoose.Schema({
   goiTinDang: {
     id: {
       type: mongoose.Schema.ObjectId,
-      ref: 'goidangky',
+      ref: 'goiDangKy',
       default: mongoose.Types.ObjectId('642d8cf41c396b8a219d01b2')
     },
     soLuongTinDang: {
