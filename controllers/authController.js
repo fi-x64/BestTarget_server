@@ -35,6 +35,7 @@ const createSendToken = (user, statusCode, res) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
+  console.log("Check req.body: ", req.body);
   const check = await NguoiDung.findOne({
     $or: [
       { "email": req.body.email },
@@ -70,18 +71,13 @@ exports.login = catchAsync(async (req, res, next) => {
 
   // 1) Check if email and password exist
   if (!email || !matKhau) {
-    return next(new AppError('Vui lòng nhập đầy đủ email và mật khẩu!', 400));
+    return next(new AppError('Please provide email and password!', 400));
   }
   // 2) Check if user exists && password is correct
   const user = await NguoiDung.findOne({ email }).select('+matKhau');
 
-
   if (!user || !(await user.correctPassword(matKhau, user.matKhau))) {
-    return next(new AppError('Email hoặc mật khẩu không đúng', 401));
-  }
-
-  if (!user.trangThai) {
-    return next(new AppError('Tài khoản chưa được kích hoạt', 401));
+    return next(new AppError('Incorrect email or password', 401));
   }
 
   // 3) If everything ok, send token to client
@@ -141,96 +137,11 @@ exports.restrictTo = (...roles) => {
   };
 };
 
-exports.createOTP = catchAsync(async (req, res, next) => {
-  // 1) Get user based on POSTed email
-  const user = await NguoiDung.findOne({ email: req.body.email });
-  if (!user) {
-    return next(new AppError('Không tìm thấy người dùng với email này trên hệ thống.', 404));
-  }
-
-  // 2) Generate the random reset token
-  const otp = user.createOTP();
-  await user.save({ validateBeforeSave: false });
-
-  const message = `Mã OTP để xác thực tạo tài khoản của bạn là: ${otp}. Vui lòng nhập vào và xác nhận trong vòng 10 phút`;
-
-  try {
-    await sendEmail({
-      email: user.email,
-      subject: 'Your OTP to active account (valid for 10 min)',
-      message
-    });
-
-    res.status(200).json({
-      status: 'success',
-      message: 'OTP đã được gửi đến email!'
-    });
-  } catch (err) {
-    user.otp = undefined;
-    user.hanDatLaiOTP = undefined;
-    await user.save({ validateBeforeSave: false });
-
-    return next(
-      new AppError('Có lỗi trong khi gửi email. Xin vui lòng hãy thử lại!'),
-      500
-    );
-  }
-});
-
 exports.activeAccount = catchAsync(async (req, res, next) => {
-  const email = req.body.email;
-  const otp = req.body.otp;
-  // 1) Get user based on the token
-  const hashedToken = crypto
-    .createHash('sha256')
-    .update(otp.toString())
-    .digest('hex');
-  console.log("Check hashedToken: ", hashedToken);
-  const user = await NguoiDung.findOne({
-    email: email,
-    otp: hashedToken,
-    hanDatLaiOTP: { $gt: Date.now() }
-  });
-
-  // 2) If token has not expired, and there is user, set the new password
-  if (!user) {
-    return next(new AppError('OTP không đúng hoặc đã hết hạn', 400));
-  }
-  user.otp = undefined;
-  user.hanDatLaiOTP = undefined;
-  user.trangThai = true;
-  await user.save();
-
-  res.status(200).json({
-    status: 'success',
-    message: 'Đã kích hoạt tài khoản thành công!'
-  });
-});
-
-exports.updatePassword = catchAsync(async (req, res, next) => {
-  // 1) Get user from collection
-  const user = await NguoiDung.findById(req.user.id).select('+matKhau');
-
-  // 2) Check if POSTed current password is correct
-  if (!(await user.correctPassword(req.body.passwordCurrent, user.matKhau))) {
-    return next(new AppError('Mật khẩu hiện tại không đúng.', 401));
-  }
-
-  // 3) If so, update password
-  user.matKhau = req.body.password;
-  user.xacNhanMatKhau = req.body.passwordConfirm;
-  await user.save();
-  // User.findByIdAndUpdate will NOT work as intended!
-
-  // 4) Log user in, send JWT
-  createSendToken(user, 200, res);
-});
-
-exports.forgotPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on POSTed email
   const user = await NguoiDung.findOne({ email: req.body.email });
   if (!user) {
-    return next(new AppError('Không tìm thấy người dùng với email này trên hệ thống.', 404));
+    return next(new AppError('There is no user with email address.', 404));
   }
 
   // 2) Generate the random reset token
@@ -242,26 +153,67 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     'host'
   )}/api/v1/users/resetPassword/${resetToken}`;
 
-  const message = `Có phải bạn đã quên mật khẩu? Nếu bạn thực hiện điều này, vui lòng nhấn vào đường link sau để tiến hành xác nhận đổi mật khẩu: ${resetURL}.\nNếu bạn không thực hiện điều này, hãy bỏ qua email này!`;
+  const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
 
   try {
     await sendEmail({
       email: user.email,
-      subject: 'Token xác nhận đặt lại mật khẩu (có hiệu lực trong vòng 10 phút)',
+      subject: 'Your password reset token (valid for 10 min)',
       message
     });
 
     res.status(200).json({
       status: 'success',
-      message: 'Token đã được gửi đến email!'
+      message: 'Token sent to email!'
     });
   } catch (err) {
-    user.tokenDatLaiMatKhau = undefined;
-    user.hanDatLaiMatKhau = undefined;
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
     await user.save({ validateBeforeSave: false });
 
     return next(
-      new AppError('Có lỗi trong khi gửi email. Xin vui lòng hãy thử lại!'),
+      new AppError('There was an error sending the email. Try again later!'),
+      500
+    );
+  }
+});
+
+exports.forgotPassword = catchAsync(async (req, res, next) => {
+  // 1) Get user based on POSTed email
+  const user = await NguoiDung.findOne({ email: req.body.email });
+  if (!user) {
+    return next(new AppError('There is no user with email address.', 404));
+  }
+
+  // 2) Generate the random reset token
+  const resetToken = user.createPasswordResetToken();
+  await user.save({ validateBeforeSave: false });
+
+  // 3) Send it to user's email
+  const resetURL = `${req.protocol}://${req.get(
+    'host'
+  )}/api/v1/users/resetPassword/${resetToken}`;
+
+  const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: 'Your password reset token (valid for 10 min)',
+      message
+    });
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Token sent to email!'
+    });
+  } catch (err) {
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save({ validateBeforeSave: false });
+
+    return next(
+      new AppError('There was an error sending the email. Try again later!'),
       500
     );
   }
@@ -275,18 +227,18 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     .digest('hex');
 
   const user = await NguoiDung.findOne({
-    tokenDatLaiMatKhau: hashedToken,
-    hanDatLaiMatKhau: { $gt: Date.now() }
+    passwordResetToken: hashedToken,
+    passwordResetExpires: { $gt: Date.now() }
   });
 
   // 2) If token has not expired, and there is user, set the new password
   if (!user) {
-    return next(new AppError('Token không đúng hoặc đã hết hạn', 400));
+    return next(new AppError('Token is invalid or has expired', 400));
   }
-  user.matKhau = req.body.matKhau;
-  user.xacNhanMatKhau = req.body.xacNhanMatKhau;
-  user.tokenDatLaiMatKhau = undefined;
-  user.hanDatLaiMatKhau = undefined;
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
   await user.save();
 
   // 3) Update changedPasswordAt property for the user

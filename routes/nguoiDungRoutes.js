@@ -9,8 +9,6 @@ router.post('/login', authController.login);
 router.post('/forgotPassword', authController.forgotPassword);
 router.patch('/resetPassword/:token', authController.resetPassword);
 router.patch('/changeAvatar/:id', nguoiDungController.changeAvatar);
-router.post('/createOTP', authController.createOTP);
-router.post('/activeAccount', authController.activeAccount);
 
 router
   .route('/profile')

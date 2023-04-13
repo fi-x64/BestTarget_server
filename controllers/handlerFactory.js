@@ -18,6 +18,7 @@ exports.deleteOne = Model =>
 
 exports.updateOne = Model =>
   catchAsync(async (req, res, next) => {
+    console.log("Check req.body: ", req.body);
     const user = req.body;
     if (user.quyen) {
       user.quyen = user.quyen._id
