@@ -25,9 +25,6 @@ const tinDangSchema = new mongoose.Schema(
             type: Number,
             required: [true, 'Giá không được để trống!']
         },
-        hangSX: {
-            type: Number,
-        },
         thoiGianTao: { type: Date, default: Date.now },
         thoiGianPush: { type: Date, default: Date.now },
         nguoiDungId: {

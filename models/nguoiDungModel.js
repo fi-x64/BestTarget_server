@@ -88,12 +88,15 @@ const nguoiDungSchema = new mongoose.Schema({
     // type: String,
     // enum: ['user', 'admin', 'manager'],
     // default: 'user'
-    type: mongoose.Schema.ObjectId, ref: 'Quyen'
+    type: mongoose.Schema.ObjectId, ref: 'Quyen',
+    default: mongoose.Types.ObjectId('64074e397906c710710e01c1')
   },
   trangThai: {
     type: Boolean,
     default: false
   },
+  otp: String,
+  hanDatLaiOTP: Date,
   thoiGianChinhSua: Date,
   thoiGianDoiMatKhau: Date,
   tokenDatLaiMatKhau: String,
@@ -171,6 +174,19 @@ nguoiDungSchema.methods.createPasswordResetToken = function () {
   this.hanDatLaiMatKhau = Date.now() + 10 * 60 * 1000;
 
   return resetToken;
+};
+
+nguoiDungSchema.methods.createOTP = function () {
+  const otp = Math.floor(Math.random() * 1000000);
+
+  // Mã hoá dãy số bằng crypto
+  this.otp = crypto.createHash('sha256').update(otp.toString()).digest('hex');
+
+  console.log({ otp }, this.otp);
+
+  this.hanDatLaiOTP = Date.now() + 10 * 60 * 1000;
+
+  return otp;
 };
 
 const NguoiDung = mongoose.model('NguoiDung', nguoiDungSchema);
