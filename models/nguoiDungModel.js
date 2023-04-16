@@ -25,7 +25,6 @@ const nguoiDungSchema = new mongoose.Schema({
   },
   matKhau: {
     type: String,
-    required: [true, 'Please provide a password'],
     minlength: 8,
     select: false
   },
@@ -42,7 +41,6 @@ const nguoiDungSchema = new mongoose.Schema({
   sdt: {
     type: String,
     unique: true,
-    required: [true, 'Please tell us your phonenumber!']
   },
   gioiTinh: {
     type: String,

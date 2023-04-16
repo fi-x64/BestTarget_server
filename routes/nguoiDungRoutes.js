@@ -6,8 +6,10 @@ const router = express.Router();
 
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
+router.post('/googleLogin', authController.googleLogin);
 router.post('/forgotPassword', authController.forgotPassword);
-router.patch('/resetPassword/:token', authController.resetPassword);
+router.get('/validateToken', authController.validateToken);
+router.patch('/resetPassword', authController.resetPassword);
 router.patch('/changeAvatar/:id', nguoiDungController.changeAvatar);
 router.post('/createOTP', authController.createOTP);
 router.post('/activeAccount', authController.activeAccount);
