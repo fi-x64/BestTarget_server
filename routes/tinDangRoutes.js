@@ -5,6 +5,18 @@ const authController = require('../controllers/authController');
 const router = express.Router({ mergeParams: true });
 
 router
+    .route('/getAllPostsNewest')
+    .get(tinDangController.getAllPostsNewest);
+
+router
+    .route('/getTinDangByUserId')
+    .get(tinDangController.getTinDangByUserId);
+
+router
+    .route('/getTinDangRelated')
+    .post(tinDangController.getTinDangRelated);
+
+router
     .route('/createPost')
     .post(tinDangController.createTinDang);
 

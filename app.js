@@ -30,6 +30,7 @@ const khuyenMaiRouter = require('./routes/khuyenMaiRoutes');
 const hoaDonRouter = require('./routes/hoaDonRoutes');
 const phongChatRouter = require('./routes/phongChatRoutes');
 const chatRouter = require('./routes/chatRoutes');
+const lichSuTimKiemRouter = require('./routes/lichSuTimKiemRoutes');
 const managerRouter = require('./routes/managerRoutes');
 const NguoiDung = require('./models/nguoiDungModel');
 const { getAllThongBaoQuery } = require('./controllers/thongBaoController');
@@ -150,6 +151,8 @@ app.use('/api/thanhToan', thanhToanRouter);
 app.use('/api/diaChi', diaChiRouter);
 app.use('/api/danhMuc', danhMucRouter);
 app.use('/api/tinYeuThich', tinYeuThichRouter);
+app.use('/api/lichSuTimKiem/', lichSuTimKiemRouter);
+
 // app.use('/api/', managerRouter);
 
 // app.use('/api/reviews', reviewRouter);

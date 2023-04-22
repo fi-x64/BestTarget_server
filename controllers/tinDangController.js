@@ -21,6 +21,123 @@ exports.getAllPosts = catchAsync(async (req, res, next) => {
     });
 });
 
+exports.getAllPostsNewest = catchAsync(async (req, res, next) => {
+    const amount = parseInt(req.query.amount);
+
+    if (amount <= 50) {
+        // const data = await TinDang.find().limit(amount).sort({ thoiGianPush: 'desc' });
+
+        const data = await TinDang.aggregate([
+            {
+                $match: {
+                    trangThaiTin: 'Đang hiển thị'
+                }
+            },
+            {
+                $lookup: {
+                    from: 'tinhtps',
+                    localField: 'diaChiTinDang.tinhTPCode',
+                    foreignField: '_id',
+                    as: 'tinhThanhPho'
+                }
+            },
+            {
+                $sort: {
+                    thoiGianPush: -1
+                }
+            },
+            {
+                $limit: amount
+            },
+        ])
+
+        // SEND RESPONSE
+        return res.status(200).json({
+            status: 'success',
+            data: data
+        });
+    }
+    res.status(200).json({
+        status: 'error',
+        message: 'Exceed limit'
+    });
+
+});
+
+exports.getTinDangByUserId = catchAsync(async (req, res, next) => {
+    const userId = mongoose.Types.ObjectId(req.query.userId);
+
+    const tinDang = await TinDang.aggregate([
+        {
+            $match: {
+                nguoiDungId: userId,
+                trangThaiTin: 'Đang hiển thị'
+            }
+        },
+        {
+            $lookup: {
+                from: 'tinhtps',
+                localField: 'diaChiTinDang.tinhTPCode',
+                foreignField: '_id',
+                as: 'tinhThanhPho'
+            }
+        },
+        {
+            $sort: {
+                thoiGianPush: -1
+            }
+        },
+        {
+            $limit: 21
+        },
+    ])
+
+    // const tinDang = await TinDang.find({ nguoiDungId: userId, trangThaiTin: 'Đang hiển thị' }).populate('nguoiDungId').sort({ thoiGianPush: 'desc' }).limit(20);
+
+    res.status(200).json({
+        status: 'success',
+        data: tinDang
+    });
+});
+
+exports.getTinDangRelated = catchAsync(async (req, res, next) => {
+    const values = req.body;
+
+    const tinDang = await TinDang.aggregate([
+        {
+            $match: {
+                $and: [
+                    { "trangThaiTin": "Đang hiển thị" },
+                    { "tieuDe": { $regex: '.*' + values.tieuDe + '.*', $options: 'i' } },
+                    { "diaChiTinDang.tinhTPCode": values.tinhTPCode }
+                ]
+            },
+        },
+        {
+            $lookup: {
+                from: 'tinhtps',
+                localField: 'diaChiTinDang.tinhTPCode',
+                foreignField: '_id',
+                as: 'tinhThanhPho'
+            }
+        },
+        {
+            $sort: {
+                thoiGianPush: -1
+            }
+        },
+        {
+            $limit: 21
+        },
+    ])
+
+    res.status(200).json({
+        status: 'success',
+        data: tinDang
+    });
+});
+
+
 exports.getTinDangByValue = catchAsync(async (req, res, next) => {
     const values = req.body;
 
@@ -315,29 +432,3 @@ exports.statisticsPostInProvince = catchAsync(async (req, res, next) => {
         data: data
     });
 });
-
-// exports.themWishlist = catchAsync(async (req, res, next) => {
-//     const data = await TinDang.aggregate([
-//         {
-//             $group: {
-//                 _id: '$diaChiTinDang.tinhTPCode',
-//                 count: { $sum: 1 }
-//             }
-//         },
-//         {
-//             $sort: { count: -1 }
-//         },
-//         {
-//             $limit: 10
-//         }
-//     ]);
-
-//     if (!data) {
-//         return next(new AppError('No statistics found', 404));
-//     }
-
-//     res.status(200).json({
-//         status: 'success',
-//         data: data
-//     });
-// });
