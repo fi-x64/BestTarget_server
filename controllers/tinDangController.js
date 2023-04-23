@@ -64,12 +64,14 @@ exports.getAllPostsNewest = catchAsync(async (req, res, next) => {
 
 });
 
-exports.getTinDangByUserId = catchAsync(async (req, res, next) => {
+exports.getAllTinDangByUserId = catchAsync(async (req, res, next) => {
     const userId = mongoose.Types.ObjectId(req.query.userId);
+    const postId = mongoose.Types.ObjectId(req.query.postId);
 
     const tinDang = await TinDang.aggregate([
         {
             $match: {
+                _id: { $ne: postId },
                 nguoiDungId: userId,
                 trangThaiTin: 'Đang hiển thị'
             }
@@ -88,7 +90,7 @@ exports.getTinDangByUserId = catchAsync(async (req, res, next) => {
             }
         },
         {
-            $limit: 21
+            $limit: 20
         },
     ])
 
@@ -100,40 +102,128 @@ exports.getTinDangByUserId = catchAsync(async (req, res, next) => {
     });
 });
 
-exports.getTinDangRelated = catchAsync(async (req, res, next) => {
+exports.getAllTinDangRelated = catchAsync(async (req, res, next) => {
     const values = req.body;
 
-    const tinDang = await TinDang.aggregate([
-        {
-            $match: {
-                $and: [
-                    { "trangThaiTin": "Đang hiển thị" },
-                    { "tieuDe": { $regex: '.*' + values.tieuDe + '.*', $options: 'i' } },
-                    { "diaChiTinDang.tinhTPCode": values.tinhTPCode }
-                ]
-            },
-        },
-        {
-            $lookup: {
-                from: 'tinhtps',
-                localField: 'diaChiTinDang.tinhTPCode',
-                foreignField: '_id',
-                as: 'tinhThanhPho'
+    if (values) {
+        values.postId = mongoose.Types.ObjectId(values.postId);
+        const regexList = values.tieuDe.split(' ').map((word) => new RegExp(word, 'i'));
+        var result;
+
+        if (values?.hangSX) {
+            const tinDang = await TinDang.aggregate([
+                {
+                    $match: {
+                        $and: [
+                            { "_id": { $ne: values.postId } },
+                            { "trangThaiTin": "Đang hiển thị" },
+                            { "diaChiTinDang.tinhTPCode": values.tinhTPCode }
+                        ]
+                    }
+                },
+                {
+                    $facet: {
+                        byTitle: [
+                            {
+                                $match: {
+                                    "tieuDe": { $in: regexList },
+                                }
+                            },
+                            {
+                                $sort: {
+                                    thoiGianPush: -1
+                                }
+                            },
+                            {
+                                $lookup: {
+                                    from: 'tinhtps',
+                                    localField: 'diaChiTinDang.tinhTPCode',
+                                    foreignField: '_id',
+                                    as: 'tinhThanhPho'
+                                }
+                            },
+                            {
+                                $limit: 20
+                            }
+                        ],
+                        byBrand: [
+                            {
+                                $match: {
+                                    "hangSX": values.hangSX
+                                }
+                            },
+                            {
+                                $sort: {
+                                    thoiGianPush: -1
+                                }
+                            },
+                            {
+                                $lookup: {
+                                    from: 'tinhtps',
+                                    localField: 'diaChiTinDang.tinhTPCode',
+                                    foreignField: '_id',
+                                    as: 'tinhThanhPho'
+                                }
+                            },
+                            {
+                                $limit: 20
+                            }
+                        ]
+                    }
+                }
+            ]);
+
+            if (tinDang) {
+                if (tinDang[0].byTitle.length < 20) {
+                    if (tinDang[0].byBrand < (20 - tinDang[0].byTitle.length - 1))
+                        result = tinDang[0].byTitle.concat(tinDang[0].byBrand)
+                    else {
+                        result = tinDang[0].byTitle.concat(tinDang[0].byBrand.slice(0, 20 - tinDang[0].byTitle.length - 1))
+
+                    }
+                } else {
+                    result = tinDang[0].byTitile
+                }
             }
-        },
-        {
-            $sort: {
-                thoiGianPush: -1
-            }
-        },
-        {
-            $limit: 21
-        },
-    ])
+        } else {
+            result = await TinDang.aggregate([
+                {
+                    $match: {
+                        $and: [
+                            { "_id": { $ne: values.postId } },
+                            { "trangThaiTin": "Đang hiển thị" },
+                            { "diaChiTinDang.tinhTPCode": values.tinhTPCode }
+                        ]
+                    }
+                },
+                {
+                    $match: {
+                        "tieuDe": { $in: regexList },
+                    }
+                },
+                {
+                    $sort: {
+                        thoiGianPush: -1
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'tinhtps',
+                        localField: 'diaChiTinDang.tinhTPCode',
+                        foreignField: '_id',
+                        as: 'tinhThanhPho'
+                    }
+                },
+                {
+                    $limit: 20
+                }
+            ]);
+        }
+    }
 
     res.status(200).json({
         status: 'success',
-        data: tinDang
+        data: result
     });
 });
 
@@ -249,8 +339,8 @@ exports.countTrangThaiTin = catchAsync(async (req, res, next) => {
 });
 
 exports.getTinDang = catchAsync(async (req, res, next) => {
-    const userId = req.query.userId;
-    const key = parseInt(req.query.phanLoai);
+    const userId = req.body.userId;
+    const key = parseInt(req.body.phanLoai);
 
     var data;
 
@@ -263,7 +353,9 @@ exports.getTinDang = catchAsync(async (req, res, next) => {
     else if (key === 4)
         data = await TinDang.find({ nguoiDungId: userId, trangThaiTin: "Đang đợi duyệt" });
     else if (key === 5)
-        data = await TinDang.find({ nguoiDungId: userId, trangThaiTin: "Tin đã ẩn" });
+        data = await TinDang.find({ nguoiDungId: userId, trangThaiTin: "Đã ẩn" });
+    else if (key === 6)
+        data = await TinDang.find({ nguoiDungId: userId, trangThaiTin: "Đã bán" });
 
     res.status(200).json({
         status: 'success',

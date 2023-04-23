@@ -18,6 +18,10 @@ router
   .route('/profile')
   .get(nguoiDungController.getUser)
 
+router
+  .route('/getUserProfile')
+  .get(nguoiDungController.getUserProfile)
+
 // Protect all routes after this middleware
 router.use(authController.protect);
 

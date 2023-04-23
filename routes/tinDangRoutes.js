@@ -9,12 +9,12 @@ router
     .get(tinDangController.getAllPostsNewest);
 
 router
-    .route('/getTinDangByUserId')
-    .get(tinDangController.getTinDangByUserId);
+    .route('/getAllTinDangByUserId')
+    .get(tinDangController.getAllTinDangByUserId);
 
 router
-    .route('/getTinDangRelated')
-    .post(tinDangController.getTinDangRelated);
+    .route('/getAllTinDangRelated')
+    .post(tinDangController.getAllTinDangRelated);
 
 router
     .route('/createPost')
@@ -34,7 +34,7 @@ router
 
 router
     .route('/getTinDang')
-    .get(tinDangController.getTinDang);
+    .post(tinDangController.getTinDang);
 
 router
     .route('/getTinDangId')

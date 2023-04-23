@@ -9,6 +9,7 @@ const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
 const cloudinary = require('cloudinary');
 const moment = require('moment');
+const mongoose = require('mongoose');
 
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
@@ -95,9 +96,46 @@ exports.getAllTinhThanh = catchAsync(async (req, res) => {
 })
 
 exports.getUser = catchAsync(async (req, res, next) => {
-  let query = NguoiDung.findById(req.query.userId);
+  let doc = await NguoiDung.findById(req.query.userId);
 
-  const doc = await query;
+  if (!doc) {
+    return next(new AppError('No document found with that ID', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: doc
+    }
+  });
+});
+
+exports.getUserProfile = catchAsync(async (req, res, next) => {
+  const userId = mongoose.Types.ObjectId(req.query.userId);
+
+  const doc = await NguoiDung.aggregate([
+    {
+      $match: {
+        _id: userId,
+      }
+    },
+    {
+      $lookup: {
+        from: 'goidangkys',
+        localField: 'goiTinDang.id',
+        foreignField: '_id',
+        as: 'goiTinDang'
+      }
+    },
+    {
+      $lookup: {
+        from: 'phuongxas',
+        localField: 'diaChi.phuongXaCode',
+        foreignField: '_id',
+        as: 'phuongXa'
+      }
+    },
+  ])
 
   if (!doc) {
     return next(new AppError('No document found with that ID', 404));

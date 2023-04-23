@@ -73,7 +73,7 @@ const tinDangSchema = new mongoose.Schema(
         },
         trangThaiTin: {
             type: String,
-            enum: ['Đang hiển thị', 'Hết hạn', 'Bị từ chối', "Tin đã ẩn", "Đang đợi duyệt"],
+            enum: ['Đang hiển thị', 'Hết hạn', 'Bị từ chối', "Đã bán", "Đã ẩn", "Đang đợi duyệt"],
             default: 'Đang đợi duyệt'
         },
         tinhTrang: {
