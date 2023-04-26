@@ -65,22 +65,38 @@ exports.createChat = catchAsync(async (req, res, next) => {
         if (data) {
             const phongChatData = await PhongChat.findById(values.phongChatId);
             if (phongChatData) {
-                const allPhongChatByUserId1 = await getAllPhongChatByUserIdQuery(phongChatData.nguoiDungId1);
-                const allPhongChatByUserId2 = await getAllPhongChatByUserIdQuery(phongChatData.nguoiDungId2);
+                var allPhongChatByUserId1, allPhongChatByUserId2;
+                if (phongChatData.loaiPhongChat == 'hoTro') {
+                    allPhongChatByUserId1 = await getAllPhongChatByUserIdQuery(phongChatData.nguoiDungId1, "hoTro");
+                    allPhongChatByUserId2 = await getAllPhongChatByUserIdQuery(phongChatData.nguoiDungId2, "hoTro");
+                } else
+                    if (phongChatData.loaiPhongChat == 'troChuyen') {
+                        allPhongChatByUserId1 = await getAllPhongChatByUserIdQuery(phongChatData.nguoiDungId1, "troChuyen");
+                        allPhongChatByUserId2 = await getAllPhongChatByUserIdQuery(phongChatData.nguoiDungId2, "troChuyen");
+                    }
+
                 const allPhongChatForNotiQuery1 = await getAllPhongChatForNotiQuery(phongChatData.nguoiDungId1);
                 const allPhongChatForNotiQuery2 = await getAllPhongChatForNotiQuery(phongChatData.nguoiDungId2);
+                // console.log("Check allPhongChatForNotiQuery1: ", allPhongChatForNotiQuery1);
+                // console.log("Check allPhongChatForNotiQuery2: ", allPhongChatForNotiQuery2);
 
-                io.sockets.emit(`newMessage_${phongChatData.nguoiDungId1}`, allPhongChatByUserId1);
-                io.sockets.emit(`newMessage_${phongChatData.nguoiDungId2}`, allPhongChatByUserId2);
+                if (phongChatData.loaiPhongChat == 'hoTro') {
+                    io.sockets.emit(`newMessage_${phongChatData.nguoiDungId1}`, { data: allPhongChatByUserId1, loaiPhongChat: 'hoTro' });
+                    io.sockets.emit(`newMessage_${phongChatData.nguoiDungId2}`, { data: allPhongChatByUserId2, loaiPhongChat: 'hoTro' });
+                } else if (phongChatData.loaiPhongChat == 'troChuyen') {
+                    io.sockets.emit(`newMessage_${phongChatData.nguoiDungId1}`, { data: allPhongChatByUserId1, loaiPhongChat: 'troChuyen' });
+                    io.sockets.emit(`newMessage_${phongChatData.nguoiDungId2}`, { data: allPhongChatByUserId2, loaiPhongChat: 'troChuyen' });
+                }
+
                 io.sockets.emit(`newMessageNoti_${phongChatData.nguoiDungId1}`, allPhongChatForNotiQuery1);
                 io.sockets.emit(`newMessageNoti_${phongChatData.nguoiDungId2}`, allPhongChatForNotiQuery2);
             }
-
-            res.status(200).json({
-                status: 'success',
-                message: 'Lưu tin nhắn thành công'
-            });
         }
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Lưu tin nhắn thành công'
+        });
     }
 });
 

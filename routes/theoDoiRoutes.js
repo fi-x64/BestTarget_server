@@ -6,21 +6,21 @@ const router = express.Router();
 
 router
     .route('/getListDangTheoDoi')
-    .get(theoDoiController.getListFollowing);
+    .get(theoDoiController.getListFollower);
 
 router
     .route('/getListNguoiTheoDoi')
-    .get(theoDoiController.getListFollower);
+    .get(theoDoiController.getListFollowing);
 
 router.use(authController.protect);
 
 router
     .route('/getListLoggedDangTheoDoi')
-    .get(theoDoiController.getListLoggedFollowing);
+    .get(theoDoiController.getListLoggedFollower);
 
 router
     .route('/getListLoggedNguoiTheoDoi')
-    .get(theoDoiController.getListLoggedFollower);
+    .get(theoDoiController.getListLoggedFollowing);
 
 router
     .route('/themTheoDoi')

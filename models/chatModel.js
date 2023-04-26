@@ -22,7 +22,7 @@ const chatSchema = new mongoose.Schema(
                 default: false
             }
         }],
-        thoiGianChatMoiNhat: { type: Date, default: Date.now },
+        thoiGianChatMoiNhat: { type: Date, default: Date.now() },
     },
     {
         strict: false,

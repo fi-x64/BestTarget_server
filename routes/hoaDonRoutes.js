@@ -16,4 +16,8 @@ router
     .route('/getAllHoaDon')
     .get(hoaDonController.getAllHoaDon);
 
+router
+    .route('/statisticsHoaDon')
+    .post(hoaDonController.statisticsHoaDon);
+
 module.exports = router;

@@ -31,9 +31,12 @@ const hoaDonRouter = require('./routes/hoaDonRoutes');
 const phongChatRouter = require('./routes/phongChatRoutes');
 const chatRouter = require('./routes/chatRoutes');
 const lichSuTimKiemRouter = require('./routes/lichSuTimKiemRoutes');
+const luotXemTinRouter = require('./routes/luotXemTinRoutes');
 const managerRouter = require('./routes/managerRoutes');
 const NguoiDung = require('./models/nguoiDungModel');
 const { getAllThongBaoQuery } = require('./controllers/thongBaoController');
+const moment = require('moment');
+const TinDang = require('./models/tinDangModel');
 
 // const reviewRouter = require('./routes/reviewRoutes');
 
@@ -135,6 +138,16 @@ schedule.scheduleJob('*/0 0 1 * *', async function () {
   }
 });
 
+schedule.scheduleJob('0 0 * * *', async function () {
+  const currentDate = Date.now();
+  const sixtyDaysAgo = moment(currentDate).subtract(60, 'days');
+  const seventyFiveDaysAgo = moment(currentDate).subtract(75, 'days');
+  const fiveDaysAgo = moment(currentDate).subtract(5, "days");
+  await TinDang.updateMany({ thoiGianPush: { $lte: sixtyDaysAgo, $gte: seventyFiveDaysAgo }, trangThaiTin: { $ne: 'Bị từ chối' } }, { trangThaiTin: 'Hết hạn' })
+  await TinDang.updateMany({ thoiGianPush: { $lte: seventyFiveDaysAgo }, trangThaiTin: { $ne: 'Bị từ chối' } }, { trangThaiTin: 'Hết hạn', xoaMem: true })
+  await TinDang.updateMany({ thoiGianPush: { $lte: fiveDaysAgo }, trangThaiTin: 'Bị từ chối' }, { trangThaiTin: 'Hết hạn', xoaMem: true })
+});
+
 // 3) ROUTES
 app.use('/api/users', nguoiDungRouter);
 app.use('/api/tinDang', tinDangRouter);
@@ -152,6 +165,7 @@ app.use('/api/diaChi', diaChiRouter);
 app.use('/api/danhMuc', danhMucRouter);
 app.use('/api/tinYeuThich', tinYeuThichRouter);
 app.use('/api/lichSuTimKiem/', lichSuTimKiemRouter);
+app.use('/api/luotXemTin/', luotXemTinRouter);
 
 // app.use('/api/', managerRouter);
 

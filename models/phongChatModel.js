@@ -13,6 +13,11 @@ const phongChatSchema = new mongoose.Schema(
         tinDangId: {
             type: mongoose.Types.ObjectId,
             ref: 'tinDang',
+        },
+        loaiPhongChat: {
+            type: String,
+            enum: ['troChuyen', 'hoTro'],
+            default: 'troChuyen'
         }
     },
     {

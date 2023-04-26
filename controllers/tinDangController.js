@@ -328,7 +328,7 @@ exports.countTrangThaiTin = catchAsync(async (req, res, next) => {
                     _id: '$trangThaiTin',
                     soLuong: { $sum: 1 },
                 }
-            }
+            },
         ]);
 
         res.status(200).json({

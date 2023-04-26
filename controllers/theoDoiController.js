@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 
 // exports.getUser = factory.getOne(NguoiDung);
 exports.themTheoDoi = catchAsync(async (req, res, next) => {
-    const userId = req.user._id;
+    const userId = req.user.id;
     const followId = req.query.followId;
 
     if (userId && followId) {
@@ -42,6 +42,7 @@ exports.themTheoDoi = catchAsync(async (req, res, next) => {
 });
 
 exports.xoaTheoDoi = catchAsync(async (req, res, next) => {
+    console.log("Check req.query: ", req.query);
     const userId = req.user._id;
     const followId = req.query.followId;
 
@@ -88,7 +89,7 @@ exports.getListFollowing = catchAsync(async (req, res, next) => {
     var count = 0;
 
     if (data) {
-        count = data[0]?.nguoiDung.length;
+        count = data.length;
     } else count = 0;
 
     res.status(200).json({
@@ -147,14 +148,14 @@ exports.getListLoggedFollowing = catchAsync(async (req, res, next) => {
         {
             $lookup: {
                 from: 'nguoidungs',
-                localField: 'nguoiDungTheoDoiId',
+                localField: 'nguoiDungId',
                 foreignField: '_id',
                 as: 'nguoiDung'
             }
         },
         {
             $match:
-                { nguoiDungId: userId, "nguoiDung.trangThai": true }
+                { nguoiDungTheoDoiId: userId, "nguoiDung.trangThai": true }
         },
         {
             $project: {
@@ -187,14 +188,14 @@ exports.getListLoggedFollower = catchAsync(async (req, res, next) => {
         {
             $lookup: {
                 from: 'nguoidungs',
-                localField: 'nguoiDungId',
+                localField: 'nguoiDungTheoDoiId',
                 foreignField: '_id',
                 as: 'nguoiDung'
             }
         },
         {
             $match:
-                { nguoiDungTheoDoiId: userId, "nguoiDung.trangThai": true }
+                { nguoiDungId: userId, "nguoiDung.trangThai": true }
         },
         {
             $project: {
