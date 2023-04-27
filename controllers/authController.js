@@ -41,7 +41,6 @@ exports.signup = catchAsync(async (req, res, next) => {
       { "sdt": req.body.sdt },
     ]
   })
-  console.log("Check check: ", check);
   if (check) {
     res.status(200).json({
       status: 'fail',
@@ -66,8 +65,6 @@ exports.signup = catchAsync(async (req, res, next) => {
 });
 
 exports.googleLogin = catchAsync(async (req, res, next) => {
-  console.log("Check req.body: ", req.body);
-
   const userData = req.body;
 
   var user = await NguoiDung.findOne({ email: userData.email });
@@ -211,7 +208,7 @@ exports.activeAccount = catchAsync(async (req, res, next) => {
     .createHash('sha256')
     .update(otp.toString())
     .digest('hex');
-  console.log("Check hashedToken: ", hashedToken);
+
   const user = await NguoiDung.findOne({
     email: email,
     otp: hashedToken,
