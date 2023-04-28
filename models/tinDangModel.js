@@ -17,9 +17,17 @@ const tinDangSchema = new mongoose.Schema(
         danhMucPhuId: {
             type: Number
         },
+        // moTa: {
+        //     type: String,
+        //     required: [true, 'Mô tả không được để trống!']
+        // },
         moTa: {
-            type: String,
-            required: [true, 'Mô tả không được để trống!']
+            text: {
+                type: String
+            },
+            html: {
+                type: String
+            },
         },
         gia: {
             type: Number,
