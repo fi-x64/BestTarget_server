@@ -10,6 +10,10 @@ router
     .route('/getHoaDonByUserId')
     .get(hoaDonController.getHoaDonByUserId);
 
+router
+    .route('/statisticsHoaDonByUserId')
+    .post(hoaDonController.statisticsHoaDonByUserId);
+
 router.use(authController.restrictTo('Admin'));
 
 router

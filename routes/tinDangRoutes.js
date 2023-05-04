@@ -58,6 +58,10 @@ router
 
 router.use(authController.protect);
 
+router
+    .route('/statisticsPostInWeekByUserId')
+    .get(tinDangController.statisticsPostInWeekByUserId)
+
 router.use(authController.restrictTo('Admin'));
 
 router

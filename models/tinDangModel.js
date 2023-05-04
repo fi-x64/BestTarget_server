@@ -86,7 +86,7 @@ const tinDangSchema = new mongoose.Schema(
         },
         tinhTrang: {
             type: String,
-            enum: ["Mới", "Đã sử dụng (chưa sửa chửa)", "Đã sử dụng (qua sửa chửa)"]
+            enum: ["Mới", "Đã sử dụng (chưa sửa chữa)", "Đã sử dụng (qua sửa chữa)"]
         },
         xoaMem: {
             type: Boolean,

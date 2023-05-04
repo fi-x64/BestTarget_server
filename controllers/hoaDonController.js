@@ -28,13 +28,45 @@ exports.getHoaDonByUserId = catchAsync(async (req, res, next) => {
 });
 
 exports.statisticsHoaDon = catchAsync(async (req, res, next) => {
-    console.log("Check req.body: ", req.body);
     const startDate = new Date(req.body.startDate);
     const endDate = new Date(req.body.endDate);
 
     const data = await HoaDon.aggregate([
         {
             $match: {
+                thoiGianTao: {
+                    $gte: startDate,
+                    $lte: endDate
+                },
+            },
+        },
+        {
+            $group: {
+                "_id": '$hinhThuc',
+                count: {
+                    $sum: 1
+                },
+                tongSoTien: { $sum: "$soTien" }
+                // firstLuotXem: { $first: "$$ROOT" }
+            },
+        },
+    ]);
+
+    res.status(200).json({
+        status: 'success',
+        data: data
+    });
+});
+
+exports.statisticsHoaDonByUserId = catchAsync(async (req, res, next) => {
+    const userId = req.user._id;
+    const startDate = new Date(req.body.startDate);
+    const endDate = new Date(req.body.endDate);
+
+    const data = await HoaDon.aggregate([
+        {
+            $match: {
+                nguoiDungId: userId,
                 thoiGianTao: {
                     $gte: startDate,
                     $lte: endDate

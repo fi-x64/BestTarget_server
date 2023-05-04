@@ -499,6 +499,75 @@ exports.statisticsPostInWeek = catchAsync(async (req, res, next) => {
     });
 });
 
+exports.statisticsPostInWeekByUserId = catchAsync(async (req, res, next) => {
+    const userId = req.user._id;
+    const currentDate = moment().format('YYYY-MM-DD');
+    const lastWeekDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
+
+    const data = await TinDang.aggregate([
+        {
+            $unwind: '$thoiGianTao'
+        },
+        {
+            $match: {
+                nguoiDungId: userId,
+                thoiGianTao: {
+                    $gte: new Date(lastWeekDate),
+                    $lte: new Date(currentDate),
+                },
+            },
+        },
+        {
+            $sort: {
+                thoiGianTao: -1
+            }
+        },
+        {
+            $project: {
+                day: {
+                    $dayOfMonth: "$thoiGianTao"
+                },
+                month: {
+                    $month: "$thoiGianTao"
+                },
+                year: {
+                    $year: "$thoiGianTao"
+                },
+            },
+        },
+        {
+            $group: {
+                _id: {
+                    day: "$day",
+                    year: "$year",
+                    month: "$month",
+                },
+                count: {
+                    $sum: 1
+                },
+            },
+        },
+        {
+            $project: {
+                _id: 0,
+                day: "$_id.day",
+                month: "$_id.month",
+                year: "$_id.year",
+                count: "$count",
+            },
+        },
+    ]);
+
+    if (!data) {
+        return next(new AppError('No statistics found', 404));
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data: data
+    });
+});
+
 exports.statisticsPostInProvince = catchAsync(async (req, res, next) => {
     const data = await TinDang.aggregate([
         {
