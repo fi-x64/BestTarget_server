@@ -42,23 +42,36 @@ exports.searchUser = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.countSoLuongTinDang = catchAsync(async (req, res, next) => {
+  const userId = req.user.id;
+
+  const data = await NguoiDung.findById(userId);
+
+  const soLuongTinDang = data.goiTinDang.soLuongTinDang;
+
+  res.status(200).json({
+    status: 'success',
+    data: soLuongTinDang
+  });
+});
+
 exports.updateMe = catchAsync(async (req, res, next) => {
   // 1) Create error if user POSTs password data
-  if (req.body.matKhau || req.body.xacNhanMatKhau) {
-    return next(
-      new AppError(
-        'This route is not for password updates. Please use /updateMyPassword.',
-        400
-      )
-    );
-  }
+  // if (req.body.matKhau || req.body.xacNhanMatKhau) {
+  //   return next(
+  //     new AppError(
+  //       'This route is not for password updates. Please use /updateMyPassword.',
+  //       400
+  //     )
+  //   );
+  // }
 
   // 2) Filtered out unwanted fields names that are not allowed to be updated
   // const filteredBody = filterObj(req.body, 'sdt', 'email');
   // console.log("Check filteredBody: ", filteredBody);
 
   // 3) Update user document
-  const updatedUser = await NguoiDung.findByIdAndUpdate(req.body._id, req.body, {
+  const updatedUser = await NguoiDung.findByIdAndUpdate(req.user._id, req.body, {
     new: true,
     runValidators: true
   });

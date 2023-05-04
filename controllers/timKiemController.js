@@ -33,7 +33,7 @@ exports.handleTimKiem = catchAsync(async (req, res, next) => {
             }
         },
         {
-            $limit: 10
+            $limit: 5
         }
     ]);
 
@@ -78,7 +78,7 @@ exports.handleTimKiem = catchAsync(async (req, res, next) => {
             }
         },
         {
-            $limit: 10
+            $limit: 5
         }
     ]);
 

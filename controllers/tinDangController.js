@@ -433,8 +433,8 @@ exports.updateTinHetHan = catchAsync(async (req, res, next) => {
 });
 
 exports.statisticsPostInWeek = catchAsync(async (req, res, next) => {
-    const currentDate = moment().format('YYYY-MM-DD');
-    const lastWeekDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
+    const currentDate = Date.now();
+    const lastWeekDate = moment(currentDate).subtract(7, 'days');
 
     const data = await TinDang.aggregate([
         {
@@ -501,16 +501,16 @@ exports.statisticsPostInWeek = catchAsync(async (req, res, next) => {
 
 exports.statisticsPostInWeekByUserId = catchAsync(async (req, res, next) => {
     const userId = req.user._id;
-    const currentDate = moment().format('YYYY-MM-DD');
-    const lastWeekDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
-
+    const currentDate = Date.now();
+    const lastWeekDate = moment(currentDate).subtract(7, 'days');
+    console.log("Check userId: ", userId);
     const data = await TinDang.aggregate([
-        {
-            $unwind: '$thoiGianTao'
-        },
+        // {
+        //     $unwind: '$thoiGianTao'
+        // },
         {
             $match: {
-                nguoiDungId: userId,
+                nguoiDungId: mongoose.Types.ObjectId(userId),
                 thoiGianTao: {
                     $gte: new Date(lastWeekDate),
                     $lte: new Date(currentDate),
@@ -557,7 +557,7 @@ exports.statisticsPostInWeekByUserId = catchAsync(async (req, res, next) => {
             },
         },
     ]);
-
+    console.log("Check data: ", data);
     if (!data) {
         return next(new AppError('No statistics found', 404));
     }

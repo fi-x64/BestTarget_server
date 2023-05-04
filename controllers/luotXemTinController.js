@@ -155,7 +155,7 @@ exports.getAllTinDangRelatedHot = catchAsync(async (req, res, next) => {
     const data = await LuotXemTin.aggregate([
         {
             $match:
-                { "tinDangId": { $ne: postId } },
+                { "tinDangId": { $ne: mongoose.Types.ObjectId(postId) } },
         },
         {
             $lookup: {

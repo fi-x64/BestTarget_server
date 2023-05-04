@@ -30,6 +30,8 @@ router.patch('/updateMyPassword', authController.updatePassword);
 router.patch('/updateMe', nguoiDungController.updateMe);
 router.delete('/deleteMe', nguoiDungController.deleteMe);
 
+router.get('/countSoLuongTinDang', nguoiDungController.countSoLuongTinDang);
+
 router
   .route('/getAllTinhThanh')
   .get(nguoiDungController.getAllTinhThanh);
