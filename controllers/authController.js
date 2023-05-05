@@ -274,7 +274,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   // 3) Send it to user's email
-  const resetURL = `http://localhost:5174/resetPassword?resetToken=${resetToken}`;
+  const resetURL = `http://localhost:5173/resetPassword?resetToken=${resetToken}`;
 
   const message = `Có phải bạn đã quên mật khẩu? Nếu bạn thực hiện điều này, vui lòng nhấn vào đường link sau để tiến hành xác nhận đổi mật khẩu: ${resetURL}.\nNếu bạn không thực hiện điều này, hãy bỏ qua email này!`;
 

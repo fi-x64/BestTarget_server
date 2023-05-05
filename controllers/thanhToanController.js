@@ -19,8 +19,8 @@ exports.thanhToanMomo = (req, response, next) => {
         var secretKey = process.env.momo_secretKey;
         var orderInfo = 'pay with MoMo';
         var partnerCode = 'MOMO';
-        var redirectUrl = 'http://127.0.0.1:5174/paymentResult';
-        var ipnUrl = 'http://127.0.0.1:5174/paymentResult';
+        var redirectUrl = 'http://127.0.0.1:5173/paymentResult';
+        var ipnUrl = 'http://127.0.0.1:5173/paymentResult';
         var requestType = "payWithMethod";
         var amount = soTien;
         var orderId = partnerCode + new Date().getTime();

@@ -217,13 +217,10 @@ exports.updateUser = catchAsync(async (req, res, next) => {
 });
 
 exports.statisticsUserInWeek = catchAsync(async (req, res, next) => {
-  const currentDate = moment().format('YYYY-MM-DD');
-  const lastWeekDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
+  const currentDate = Date.now();
+  const lastWeekDate = moment(currentDate).subtract(7, 'days');
 
   const data = await NguoiDung.aggregate([
-    {
-      $unwind: '$thoiGianTao'
-    },
     {
       $match: {
         thoiGianTao: {
