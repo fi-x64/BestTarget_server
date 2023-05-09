@@ -593,3 +593,62 @@ exports.statisticsPostInProvince = catchAsync(async (req, res, next) => {
         data: data
     });
 });
+
+exports.countSoLuongTinDang = catchAsync(async (req, res, next) => {
+    const now = new Date();
+
+    const total = await TinDang.find({ trangThaiTin: 'Đang hiển thị' }).count();
+
+    const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const thisMonthStart = new Date();
+
+    const data = await TinDang.aggregate([
+        {
+            $match: {
+                trangThaiTin: 'Đang hiển thị',
+                thoiGianTao: { $gte: lastMonthStart, $lte: thisMonthStart },
+            },
+        },
+        {
+            $group: {
+                _id: {
+                    month: { $month: '$thoiGianTao' },
+                    year: { $year: '$thoiGianTao' },
+                },
+                count: { $sum: 1 },
+            },
+        },
+        {
+            $sort: {
+                '_id.year': 1,
+                '_id.month': 1,
+            },
+        },
+    ])
+
+    var percentage = 0;
+    if (data) {
+        var lastMonthCount = 0;
+        var thisMonthCount = 0;
+
+        if (data[0]?.count) {
+            lastMonthCount = data[0].count;
+        }
+        if (data[1]?.count) {
+            thisMonthCount = data[1].count;
+        }
+
+        if (lastMonthCount != 0)
+            percentage = ((thisMonthCount - lastMonthCount) / lastMonthCount) * 100;
+        else
+            percentage = ((thisMonthCount - lastMonthCount) / 1) * 100;
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            total,
+            percentage
+        }
+    });
+});

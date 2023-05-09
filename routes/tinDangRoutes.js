@@ -80,4 +80,6 @@ router
     .route('/statisticsPostInProvince')
     .get(tinDangController.statisticsPostInProvince)
 
+router.get('/countSoLuongTinDang', tinDangController.countSoLuongTinDang);
+
 module.exports = router;

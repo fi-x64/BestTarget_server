@@ -43,6 +43,10 @@ router
   .get(nguoiDungController.statisticsUserInWeek)
 
 router
+  .route('/countSoLuongNguoiDung')
+  .get(nguoiDungController.countSoLuongNguoiDung)
+
+router
   .route('/search')
   .get(nguoiDungController.searchUser)
 
