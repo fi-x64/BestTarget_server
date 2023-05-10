@@ -639,9 +639,9 @@ exports.countSoLuongTinDang = catchAsync(async (req, res, next) => {
         }
 
         if (lastMonthCount != 0)
-            percentage = ((thisMonthCount - lastMonthCount) / lastMonthCount) * 100;
+            percentage = Math.floor(((thisMonthCount - lastMonthCount) / lastMonthCount) * 100);
         else
-            percentage = ((thisMonthCount - lastMonthCount) / 1) * 100;
+            percentage = Math.floor(((thisMonthCount - lastMonthCount) / 1) * 100);
     }
 
     res.status(200).json({

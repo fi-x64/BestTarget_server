@@ -38,6 +38,10 @@ exports.statisticsHoaDon = catchAsync(async (req, res, next) => {
                     $gte: startDate,
                     $lte: endDate
                 },
+                $or: [
+                    { hinhThuc: 'Chuyển tiền' },
+                    { hinhThuc: 'Nạp tiền' },
+                ]
             },
         },
         {
@@ -71,6 +75,10 @@ exports.statisticsHoaDonByUserId = catchAsync(async (req, res, next) => {
                     $gte: startDate,
                     $lte: endDate
                 },
+                $or: [
+                    { hinhThuc: 'Chuyển tiền' },
+                    { hinhThuc: 'Nạp tiền' },
+                ]
             },
         },
         {
